@@ -43,7 +43,14 @@ const Concert = () => {
       <MasonryLightbox
         images={concert.photos}
         spacing="0.5em"
-        columnsCountBreakPoints={{ 750: 2, 900: 3, 1200: 4, 1500: 5, 2000: 6 }}
+        columnsCountBreakPoints={{
+          default: 6,
+          500: 1,
+          750: 2,
+          900: 3,
+          1200: 4,
+          1500: 5,
+        }}
       />
       <FooterBar />
     </Container>

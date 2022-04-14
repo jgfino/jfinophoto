@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import Lightbox from "react-image-lightbox";
+import Masonry from "react-masonry-css";
 import styled from "styled-components";
+import "./masonry.css";
 //@ts-ignore
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+// import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 interface MasonryLightboxProps {
-  columnsCountBreakPoints: { [key: number]: number };
+  columnsCountBreakPoints: { [key: string]: number };
   spacing: string;
   images: string[];
   titles?: string[];
@@ -25,23 +27,27 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   return (
     <div>
       <GridContainer>
-        <ResponsiveMasonry columnsCountBreakPoints={columnsCountBreakPoints}>
-          <Masonry gutter={spacing}>
-            {images.map((item, index) => {
-              return (
-                <GridItem
-                  key={index}
-                  referrerPolicy="no-referrer"
-                  src={item}
-                  onClick={() => {
-                    setPhotoIndex(index);
-                    setIsOpen(true);
-                  }}
-                />
-              );
-            })}
-          </Masonry>
-        </ResponsiveMasonry>
+        {/* <ResponsiveMasonry columnsCountBreakPoints={columnsCountBreakPoints}> */}
+        <Masonry
+          breakpointCols={columnsCountBreakPoints}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column"
+        >
+          {images.map((item, index) => {
+            return (
+              <GridItem
+                key={index}
+                referrerPolicy="no-referrer"
+                src={item}
+                onClick={() => {
+                  setPhotoIndex(index);
+                  setIsOpen(true);
+                }}
+              />
+            );
+          })}
+        </Masonry>
+        {/* </ResponsiveMasonry> */}
       </GridContainer>
       {isOpen && (
         <Lightbox
@@ -73,4 +79,7 @@ const GridContainer = styled.div`
 
 const GridItem = styled.img`
   cursor: pointer;
+  max-height: 100%;
+  max-width: 100%;
+  margin-bottom: 0.25em;
 `;

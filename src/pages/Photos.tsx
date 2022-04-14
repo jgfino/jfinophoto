@@ -43,12 +43,13 @@ const Photos = () => {
       </RefreshContainer>
       <MasonryLightbox
         columnsCountBreakPoints={{
-          250: 2,
-          500: 3,
+          default: 7,
+          500: 1,
+          750: 2,
+          900: 3,
           1000: 4,
           1200: 5,
           1500: 6,
-          1600: 7,
         }}
         spacing="1em"
         images={images.map((image) => image.url)}
