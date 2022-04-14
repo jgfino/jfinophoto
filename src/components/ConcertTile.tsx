@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 interface ConcertTileProps {
@@ -51,19 +50,18 @@ const Cover = styled.img`
   height: 100%;
   object-fit: cover;
   object-position: 50% 20%;
-  left: 0;
 `;
 
 const DateText = styled.p`
   font-size: 1em;
-  font-family: "Barlow Semi Condensed";
+  font-family: ${({ theme }) => theme.fontFamily.main};
   color: ${({ theme }) => theme.colors.text};
   margin: 0;
 `;
 
 const Title = styled.p`
   font-size: 1.8em;
-  font-family: "Barlow Semi Condensed";
+  font-family: ${({ theme }) => theme.fontFamily.main};
   color: ${({ theme }) => theme.colors.text};
   margin: 0;
   font-weight: bold;
@@ -71,7 +69,7 @@ const Title = styled.p`
 
 const SubTitle = styled.p`
   font-size: 1.2em;
-  font-family: "Barlow Semi Condensed";
+  font-family: ${({ theme }) => theme.fontFamily.main};
   color: ${({ theme }) => theme.colors.text};
   margin: 0;
 `;

@@ -1,13 +1,12 @@
-//@ts-nocheck
-
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { sendContactForm } from "../apiClient";
 import HeaderBar from "../components/HeaderBar";
-import { ContactForm } from "../types";
 import validator from "validator";
-import { Formik, Form, Field, ErrorMessage, getIn, useFormik } from "formik";
+import { Formik, Form } from "formik";
 import SimplePopup from "../components/SimplePopup";
+import FooterBar from "../components/FooterBar";
+import OutlineErrorInput from "../components/OutlineErrorInput";
 
 const Contact = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -29,199 +28,190 @@ const Contact = () => {
         onClose={() => setShowPopup(false)}
       />
       <HeaderBar activePath="contact" />
-      <Title>Contact Me!</Title>
-      <FormContainer>
-        <Formik
-          validateOnChange={false}
-          validateOnBlur={false}
-          initialValues={{
-            firstName: "",
-            lastName: "",
-            email: "",
-            subject: "",
-            message: "",
-          }}
-          validate={(values) => {
-            const errors: {
-              firstName?: string;
-              lastName?: string;
-              email?: string;
-              subject?: string;
-              message?: string;
-            } = {};
+      <InnerContainer>
+        <FormContainer>
+          <Title>Contact Me!</Title>
+          <Formik
+            validateOnChange={false}
+            validateOnBlur={false}
+            initialValues={{
+              firstName: "",
+              lastName: "",
+              email: "",
+              subject: "",
+              message: "",
+            }}
+            validate={(values) => {
+              const errors: {
+                firstName?: string;
+                lastName?: string;
+                email?: string;
+                subject?: string;
+                message?: string;
+              } = {};
 
-            Object.keys(values).forEach((key: string) => {
-              if (
-                !validate[key as keyof typeof values](
-                  values[key as keyof typeof values].trim()
-                )
-              ) {
-                errors[key as keyof typeof values] = "Invalid Input";
+              Object.keys(values).forEach((key: string) => {
+                if (
+                  !validate[key as keyof typeof values](
+                    values[key as keyof typeof values].trim()
+                  )
+                ) {
+                  errors[key as keyof typeof values] = "Invalid Input";
+                }
+              });
+              return errors;
+            }}
+            onSubmit={async (values, { setSubmitting, resetForm }) => {
+              try {
+                await sendContactForm(values);
+                setPopupText(
+                  "Thank you for your inquiry! I will get back to you shortly."
+                );
+                resetForm();
+              } catch (e) {
+                setPopupText(
+                  "There was an error processing your inquiry. Please try again. If the problem persists, please email me directly."
+                );
+                console.log(e);
+              } finally {
+                setSubmitting(false);
+                setShowPopup(true);
               }
-            });
-            return errors;
-          }}
-          onSubmit={async (values, { setSubmitting, resetForm }) => {
-            try {
-              await sendContactForm(values);
-              setPopupText(
-                "Thank you for your inquiry! I will get back to you shortly."
-              );
-              resetForm();
-            } catch (e) {
-              setPopupText(
-                "There was an error processing your inquiry. Please try again. If the problem persists, please email me directly."
-              );
-              console.log(e);
-            } finally {
-              setSubmitting(false);
-              setShowPopup(true);
-            }
-          }}
-        >
-          {({ isSubmitting, errors }) => (
-            <Form>
-              <FormTable>
-                <tr>
-                  <td>
-                    <Label>Name*</Label>
-                  </td>
-                  <td>
-                    <OutlineErrorInput
-                      showOutline={errors.firstName}
-                      type="text"
-                      name="firstName"
-                      placeholder="First Name"
-                      errorMessage="Minimum 2 characters"
-                    />
-                  </td>
-                  <td>
-                    <OutlineErrorInput
-                      showOutline={errors.lastName}
-                      type="text"
-                      name="lastName"
-                      placeholder="Last Name"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <Label>Email/Subject*</Label>
-                  </td>
-                  <td>
-                    <OutlineErrorInput
-                      showOutline={errors.email}
-                      type="text"
-                      name="email"
-                      placeholder="Email Address"
-                    />
-                  </td>
-                  <td>
-                    <OutlineErrorInput
-                      showOutline={errors.subject}
-                      type="text"
-                      name="subject"
-                      placeholder="Subject"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <Label>Message*</Label>
-                  </td>
-                  <td colSpan={2}>
-                    <OutlineErrorInput
-                      showOutline={errors.message}
-                      rows={5}
-                      component="textarea"
-                      type="text"
-                      name="message"
-                      placeholder="Message"
-                    />
-                  </td>
-                </tr>
-              </FormTable>
-              {errors.firstName && (
-                <ErrorText>One or more fields contain invalid input</ErrorText>
-              )}
-              <Submit type="submit" disabled={isSubmitting}></Submit>
-            </Form>
-          )}
-        </Formik>
-      </FormContainer>
+            }}
+          >
+            {({ isSubmitting, errors }) => (
+              <Form>
+                <FormTable>
+                  <tr>
+                    <td>
+                      <Label>Name*</Label>
+                    </td>
+                    <td>
+                      <OutlineErrorInput
+                        showOutline={errors.firstName}
+                        type="text"
+                        name="firstName"
+                        placeholder="First Name"
+                        errorMessage="Minimum 2 characters"
+                      />
+                    </td>
+                    <td>
+                      <OutlineErrorInput
+                        showOutline={errors.lastName}
+                        type="text"
+                        name="lastName"
+                        placeholder="Last Name"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <Label>Email/Subject*</Label>
+                    </td>
+                    <td>
+                      <OutlineErrorInput
+                        showOutline={errors.email}
+                        type="text"
+                        name="email"
+                        placeholder="Email Address"
+                      />
+                    </td>
+                    <td>
+                      <OutlineErrorInput
+                        showOutline={errors.subject}
+                        type="text"
+                        name="subject"
+                        placeholder="Subject"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <Label>Message*</Label>
+                    </td>
+                    <td colSpan={2}>
+                      <OutlineErrorInput
+                        showOutline={errors.message}
+                        rows={5}
+                        component="textarea"
+                        type="text"
+                        name="message"
+                        placeholder="Message"
+                      />
+                    </td>
+                  </tr>
+                </FormTable>
+                {errors.firstName && (
+                  <ErrorText>
+                    One or more fields contain invalid input
+                  </ErrorText>
+                )}
+                <Submit type="submit" disabled={isSubmitting}></Submit>
+              </Form>
+            )}
+          </Formik>
+        </FormContainer>
+      </InnerContainer>
+      <FooterBar />
     </Container>
   );
 };
 
 export default Contact;
 
-const OutlineErrorInput = ({ showOutline, ...props }) => {
-  console.log(showOutline);
-  const style = showOutline
-    ? { ...props.style, border: "2px solid red" }
-    : props.style;
-
-  return <Input {...props} style={style} />;
-};
-
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.background};
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+  justify-content: space-between;
+`;
+
+const InnerContainer = styled.div`
+  flex: 1;
 `;
 
 const Title = styled.p`
   font-size: 3em;
-  font-family: "Barlow Semi Condensed";
+  font-family: ${({ theme }) => theme.fontFamily.main};
   color: ${({ theme }) => theme.colors.text};
   margin: 0;
-  margin-top: 4rem;
+  margin-bottom: 4rem;
   font-weight: bold;
   text-decoration: none;
   text-align: center;
 `;
 
 const FormContainer = styled.div`
-  width: 70%;
-  margin: auto;
-  margin-top: 3rem;
+  min-width: 1000px;
+  max-width: 2000px;
+  margin-top: 4rem;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 const FormTable = styled.table`
   text-align: left;
   border-spacing: 2em;
-  width: 100%;
 `;
 
 const Label = styled.label`
   font-size: 1.5em;
-  font-family: "Barlow Semi Condensed";
+  font-family: ${({ theme }) => theme.fontFamily.main};
   color: ${({ theme }) => theme.colors.text};
   text-align: right;
-`;
-
-const Input = styled(Field)`
-  font-size: 1em;
-  padding: 0.6em;
-  border-radius: 10px;
-  font-family: "Barlow Semi Condensed";
-  color: black;
-  border-width: 1.5px;
-  border-color: ${({ theme }) => theme.colors.text};
-  margin-right: 2em;
-  width: 100%;
-  resize: vertical;
-  &:focus {
-    outline: none;
-    box-shadow: 0px 0px 5px ${({ theme }) => theme.colors.text};
-  }
 `;
 
 const ErrorText = styled.p`
   font-size: 1em;
   font-style: italic;
   color: ${({ theme }) => theme.colors.text};
-  font-family: "Barlow Semi Condensed";
+  font-family: ${({ theme }) => theme.fontFamily.main};
   margin: 0.2em;
   margin-bottom: 2em;
 `;
@@ -235,9 +225,8 @@ const Submit = styled.input`
   cursor: pointer;
   border-radius: 0.5em;
   margin-top: 1.2em;
-
   font-size: 1.5em;
-  font-family: "Barlow Semi Condensed";
+  font-family: ${({ theme }) => theme.fontFamily.main};
   font-weight: bold;
   margin: auto;
   margin-bottom: 2em;

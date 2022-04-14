@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getConcerts } from "../apiClient";
 import ConcertTile from "../components/ConcertTile";
 import ErrorPage from "../components/ErrorPage";
+import FooterBar from "../components/FooterBar";
 import HeaderBar from "../components/HeaderBar";
 import LoadingPage from "../components/LoadingPage";
 import { ConcertPreview } from "../types";
@@ -40,6 +41,7 @@ const Concerts = () => {
           />
         ))}
       </GridContainer>
+      <FooterBar />
     </Container>
   );
 };
@@ -48,7 +50,10 @@ export default Concerts;
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.background};
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+  justify-content: space-between;
 `;
 
 const GridContainer = styled.div`

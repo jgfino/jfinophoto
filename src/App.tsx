@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Photos from "./pages/Photos";
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./themes";
@@ -30,6 +30,8 @@ function App() {
   }, []);
 
   const theme = mode === "light" ? lightTheme : darkTheme;
+
+  document.body.style.backgroundColor = theme.colors.background;
 
   return (
     <ThemeProvider theme={theme}>

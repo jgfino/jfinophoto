@@ -1,11 +1,12 @@
 import React from "react";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import "@fontsource/bebas-neue";
 import "@fontsource/barlow-semi-condensed";
 import App from "./App";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
+import "react-image-lightbox/style.css";
+import "reactjs-popup/dist/index.css";
 
 ReactDOM.render(
   <BrowserRouter>

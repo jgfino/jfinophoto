@@ -38,6 +38,6 @@ const StyledIcon = styled(CameraIcon).attrs((props) => ({
 const MessageText = styled.span`
   color: ${({ theme }) => theme.colors.text};
   font-size: 1.5em;
-  font-family: "Barlow Semi Condensed";
+  font-family: ${({ theme }) => theme.fontFamily.main};
   margin: 5rem;
 `;

@@ -20,16 +20,29 @@ const lightThemeColors: ThemeColors = {
   text: colors.black,
 };
 
-export const darkTheme: DefaultTheme = {
+interface ThemeFonts {
+  main: string;
+}
+
+const themeFont: ThemeFonts = {
+  main: "Barlow Semi Condensed",
+};
+
+interface Theme {
+  colors: ThemeColors;
+  fontFamily: ThemeFonts;
+}
+
+export const lightTheme: Theme = {
+  colors: lightThemeColors,
+  fontFamily: themeFont,
+};
+
+export const darkTheme: Theme = {
+  ...lightTheme,
   colors: darkThemeColors,
 };
 
-export const lightTheme: DefaultTheme = {
-  colors: lightThemeColors,
-};
-
 declare module "styled-components" {
-  export interface DefaultTheme {
-    colors: ThemeColors;
-  }
+  export interface DefaultTheme extends Theme {}
 }

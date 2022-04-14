@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import {
@@ -6,8 +5,13 @@ import {
   IoLogoGithub as LogoGitHub,
   IoMailOpenOutline as Mail,
 } from "react-icons/io5";
+import React from "react";
 
-const HeaderBar = ({ activePath }: { activePath: string }) => {
+interface HeaderProps {
+  activePath: "portfolio" | "concerts" | "about" | "contact";
+}
+
+const HeaderBar: React.FC<HeaderProps> = ({ activePath }) => {
   const paths = ["portfolio", "concerts", "about", "contact"];
   return (
     <Container>
@@ -17,14 +21,13 @@ const HeaderBar = ({ activePath }: { activePath: string }) => {
           <NavButton
             key={path}
             style={
-              activePath == path ? { textDecoration: "underline" } : undefined
+              activePath === path ? { textDecoration: "underline" } : undefined
             }
             to={`/${path}`}
           >
             {path.toUpperCase()}
           </NavButton>
         ))}
-
         <SocialButton
           target="_blank"
           href="https://www.instagram.com/jfino.photo/"
@@ -46,12 +49,12 @@ export default HeaderBar;
 
 const Container = styled.div`
   display: flex;
-  flex: 1;
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
   padding: 1.5em;
   background-color: ${({ theme }) => theme.colors.background};
+  flex-grow: 0;
 `;
 
 const NavBar = styled.div`
@@ -61,7 +64,7 @@ const NavBar = styled.div`
 
 const NavButton = styled(NavLink)`
   font-size: 1.4em;
-  font-family: "Barlow Semi Condensed";
+  font-family: ${({ theme }) => theme.fontFamily.main};
   color: ${({ theme }) => theme.colors.text};
   text-underline-offset: 0.2em;
   text-decoration: none;
@@ -78,8 +81,8 @@ const SocialButton = styled.a`
 `;
 
 const Title = styled(NavLink)`
-  font-size: 2em;
-  font-family: "Barlow Semi Condensed";
+  font-size: 2.5em;
+  font-family: ${({ theme }) => theme.fontFamily.main};
   color: ${({ theme }) => theme.colors.text};
   margin: 0;
   font-weight: bold;

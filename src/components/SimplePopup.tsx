@@ -1,6 +1,5 @@
 import React from "react";
 import Popup from "reactjs-popup";
-import "reactjs-popup/dist/index.css";
 import styled from "styled-components";
 
 interface SimplePopupProps {
@@ -53,7 +52,7 @@ const StyledPopup = styled(Popup)`
 const MsgText = styled.p`
   font-size: 1em;
   color: ${({ theme }) => theme.colors.text};
-  font-family: "Barlow Semi Condensed";
+  font-family: ${({ theme }) => theme.fontFamily.main};
   display: flex;
   flex: 2;
 `;
