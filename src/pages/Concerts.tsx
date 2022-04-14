@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getConcerts } from "../apiClient";
 import ConcertTile from "../components/ConcertTile";
+import ErrorPage from "../components/ErrorPage";
 import HeaderBar from "../components/HeaderBar";
+import LoadingPage from "../components/LoadingPage";
 import { ConcertPreview } from "../types";
 
 const Concerts = () => {
@@ -20,9 +22,8 @@ const Concerts = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return null;
-
-  // if (error) return errorpage
+  if (loading) return <LoadingPage />;
+  if (error) return <ErrorPage />;
 
   return (
     <Container>
@@ -30,6 +31,7 @@ const Concerts = () => {
       <GridContainer>
         {concerts.map((concert) => (
           <ConcertTile
+            key={concert.id}
             image={concert.coverImage}
             artist={concert.artist}
             location={concert.venue}

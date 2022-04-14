@@ -15,6 +15,7 @@ const HeaderBar = ({ activePath }: { activePath: string }) => {
       <NavBar>
         {paths.map((path) => (
           <NavButton
+            key={path}
             style={
               activePath == path ? { textDecoration: "underline" } : undefined
             }

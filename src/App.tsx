@@ -7,6 +7,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Concerts from "./pages/Concerts";
 import Concert from "./pages/Concert";
+import ErrorPage from "./components/ErrorPage";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark" | undefined>(
@@ -39,6 +40,7 @@ function App() {
         <Route path="/concerts/:id" element={<Concert />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </ThemeProvider>
   );

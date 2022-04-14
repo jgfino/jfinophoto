@@ -7,6 +7,8 @@ import HeaderBar from "../components/HeaderBar";
 import { ConcertDetails, ConcertImage } from "../types";
 //@ts-ignore
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import ErrorPage from "../components/ErrorPage";
+import LoadingPage from "../components/LoadingPage";
 
 const Concert = () => {
   const [concert, setConcert] = useState<ConcertDetails>();
@@ -29,12 +31,13 @@ const Concert = () => {
         console.log(e);
         setError(true);
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setTimeout(() => setLoading(false), 500);
+      });
   }, [id]);
 
-  if (loading || !concert) return null;
-
-  // if (error) return errorpage
+  if (loading || !concert) return <LoadingPage />;
+  if (error) return <ErrorPage />;
 
   const MasonryGrid = ({ images }: { images: string[] }) => {
     return (
@@ -45,6 +48,7 @@ const Concert = () => {
           {images.map((item, index) => {
             return (
               <GridItem
+                key={index}
                 referrerPolicy="no-referrer"
                 src={item}
                 onClick={() => {

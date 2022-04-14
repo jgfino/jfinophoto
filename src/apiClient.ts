@@ -6,7 +6,7 @@ import {
   ContactForm,
 } from "./types";
 
-const baseUrl = "http://localhost:3001/api/v1";
+const baseUrl = "http://68.183.97.157/api/v1";
 
 export const getPortolio = async () => {
   const images: ConcertImage[] = (await axios.get(`${baseUrl}/portfolio`)).data;

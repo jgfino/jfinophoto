@@ -6,37 +6,16 @@ import { sendContactForm } from "../apiClient";
 import HeaderBar from "../components/HeaderBar";
 import { ContactForm } from "../types";
 import validator from "validator";
-import { Formik, Form, Field, ErrorMessage, getIn } from "formik";
+import { Formik, Form, Field, ErrorMessage, getIn, useFormik } from "formik";
+import SimplePopup from "../components/SimplePopup";
 
 const Contact = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-
-  const [email, setEmail] = useState("");
-  const [subject, setSubject] = useState("");
-
-  const [message, setMessage] = useState("");
-
-  const submitForm = async (event: any) => {
-    event.preventDefault();
-    const form: ContactForm = {
-      firstName,
-      lastName,
-      subject,
-      email,
-      message,
-    };
-
-    try {
-      await sendContactForm(form);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupText, setPopupText] = useState("");
 
   const validate = {
     firstName: (name: string) => name.length > 2,
-    lastName: (name: string) => name.length > 2,
+    lastName: (name: string) => name.length > 1,
     email: (email: string) => validator.isEmail(email),
     subject: (subject: string) => subject.length > 2,
     message: (msg: string) => msg.length > 10,
@@ -44,11 +23,17 @@ const Contact = () => {
 
   return (
     <Container>
+      <SimplePopup
+        open={showPopup}
+        message={popupText}
+        onClose={() => setShowPopup(false)}
+      />
       <HeaderBar activePath="contact" />
       <Title>Contact Me!</Title>
       <FormContainer>
         <Formik
           validateOnChange={false}
+          validateOnBlur={false}
           initialValues={{
             firstName: "",
             lastName: "",
@@ -68,20 +53,33 @@ const Contact = () => {
             Object.keys(values).forEach((key: string) => {
               if (
                 !validate[key as keyof typeof values](
-                  values[key as keyof typeof values]
+                  values[key as keyof typeof values].trim()
                 )
               ) {
                 errors[key as keyof typeof values] = "Invalid Input";
               }
             });
-
-            console.log(errors);
+            return errors;
           }}
-          onSubmit={(values, { setSubmitting }) => {
-            setSubmitting(false);
+          onSubmit={async (values, { setSubmitting, resetForm }) => {
+            try {
+              await sendContactForm(values);
+              setPopupText(
+                "Thank you for your inquiry! I will get back to you shortly."
+              );
+              resetForm();
+            } catch (e) {
+              setPopupText(
+                "There was an error processing your inquiry. Please try again. If the problem persists, please email me directly."
+              );
+              console.log(e);
+            } finally {
+              setSubmitting(false);
+              setShowPopup(true);
+            }
           }}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, errors }) => (
             <Form>
               <FormTable>
                 <tr>
@@ -89,14 +87,17 @@ const Contact = () => {
                     <Label>Name*</Label>
                   </td>
                   <td>
-                    <Input
+                    <OutlineErrorInput
+                      showOutline={errors.firstName}
                       type="text"
                       name="firstName"
                       placeholder="First Name"
+                      errorMessage="Minimum 2 characters"
                     />
                   </td>
                   <td>
-                    <Input
+                    <OutlineErrorInput
+                      showOutline={errors.lastName}
                       type="text"
                       name="lastName"
                       placeholder="Last Name"
@@ -108,14 +109,20 @@ const Contact = () => {
                     <Label>Email/Subject*</Label>
                   </td>
                   <td>
-                    <Input
+                    <OutlineErrorInput
+                      showOutline={errors.email}
                       type="text"
                       name="email"
                       placeholder="Email Address"
                     />
                   </td>
                   <td>
-                    <Input type="text" name="subject" placeholder="Subject" />
+                    <OutlineErrorInput
+                      showOutline={errors.subject}
+                      type="text"
+                      name="subject"
+                      placeholder="Subject"
+                    />
                   </td>
                 </tr>
                 <tr>
@@ -123,7 +130,8 @@ const Contact = () => {
                     <Label>Message*</Label>
                   </td>
                   <td colSpan={2}>
-                    <Input
+                    <OutlineErrorInput
+                      showOutline={errors.message}
                       rows={5}
                       component="textarea"
                       type="text"
@@ -133,6 +141,9 @@ const Contact = () => {
                   </td>
                 </tr>
               </FormTable>
+              {errors.firstName && (
+                <ErrorText>One or more fields contain invalid input</ErrorText>
+              )}
               <Submit type="submit" disabled={isSubmitting}></Submit>
             </Form>
           )}
@@ -143,6 +154,15 @@ const Contact = () => {
 };
 
 export default Contact;
+
+const OutlineErrorInput = ({ showOutline, ...props }) => {
+  console.log(showOutline);
+  const style = showOutline
+    ? { ...props.style, border: "2px solid red" }
+    : props.style;
+
+  return <Input {...props} style={style} />;
+};
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.background};
@@ -197,21 +217,13 @@ const Input = styled(Field)`
   }
 `;
 
-const ErrorInput = styled.input`
+const ErrorText = styled.p`
   font-size: 1em;
-  padding: 0.6em;
-  border-radius: 10px;
-  font-family: "Barlow Semi Condensed";
+  font-style: italic;
   color: ${({ theme }) => theme.colors.text};
-  border-width: 1.5px;
-  border-color: red;
-  margin-right: 2em;
-  width: 100%;
-  resize: vertical;
-  &:focus {
-    outline: none;
-    box-shadow: 0px 0px 5px ${({ theme }) => theme.colors.text};
-  }
+  font-family: "Barlow Semi Condensed";
+  margin: 0.2em;
+  margin-bottom: 2em;
 `;
 
 const Submit = styled.input`
@@ -223,8 +235,10 @@ const Submit = styled.input`
   cursor: pointer;
   border-radius: 0.5em;
   margin-top: 1.2em;
+
   font-size: 1.5em;
   font-family: "Barlow Semi Condensed";
   font-weight: bold;
   margin: auto;
+  margin-bottom: 2em;
 `;

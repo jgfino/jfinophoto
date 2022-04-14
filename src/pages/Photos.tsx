@@ -7,7 +7,9 @@ import { IoShuffle as Shuffle } from "react-icons/io5";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
 import { ConcertImage } from "../types";
+import LoadingPage from "../components/LoadingPage";
 import { getPortolio } from "../apiClient";
+import ErrorPage from "../components/ErrorPage";
 
 const Photos = () => {
   const [images, setImages] = useState<ConcertImage[]>([]);
@@ -49,6 +51,7 @@ const Photos = () => {
           {images.map((item, index) => {
             return (
               <GridItem
+                key={index}
                 referrerPolicy="no-referrer"
                 src={item.url}
                 onClick={() => {
@@ -63,9 +66,8 @@ const Photos = () => {
     );
   };
 
-  if (loading) return null;
-
-  //if (error) return //errorscreen
+  if (loading) return <LoadingPage />;
+  if (error) return <ErrorPage />;
 
   return (
     <Container>
