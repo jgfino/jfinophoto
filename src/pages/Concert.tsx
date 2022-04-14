@@ -28,12 +28,12 @@ const Concert = () => {
         setError(true);
       })
       .finally(() => {
-        setTimeout(() => setLoading(false), 500);
+        setLoading(false);
       });
   }, [id]);
 
-  if (loading || !concert) return <LoadingPage />;
-  if (error) return <ErrorPage />;
+  if (loading) return <LoadingPage />;
+  if (error || !concert) return <ErrorPage />;
 
   return (
     <Container>
