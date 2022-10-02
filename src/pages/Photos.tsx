@@ -21,7 +21,7 @@ const Photos = () => {
   useEffect(() => {
     getPortolio()
       .then((data) => {
-        setImages(data);
+        setImages(data.sort(() => 0.5 - Math.random()).slice());
       })
       .catch((e) => {
         console.log(e);
@@ -43,13 +43,13 @@ const Photos = () => {
       </RefreshContainer>
       <MasonryLightbox
         columnsCountBreakPoints={{
-          default: 7,
+          default: 5,
           500: 1,
           750: 2,
           900: 3,
-          1000: 4,
-          1200: 5,
-          1500: 6,
+          1000: 3,
+          1200: 4,
+          1500: 4,
         }}
         spacing="1em"
         images={images.map((image) => image.url)}
@@ -69,6 +69,7 @@ const Container = styled.div`
   flex-direction: column;
   min-height: 100vh;
   justify-content: space-between;
+  overflow: hidden;
 `;
 
 const RefreshContainer = styled.div`
