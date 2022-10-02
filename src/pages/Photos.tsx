@@ -49,7 +49,7 @@ const Photos = () => {
           900: 3,
           1000: 3,
           1200: 4,
-          1500: 4,
+          1500: 5,
         }}
         spacing="1em"
         images={images.map((image) => image.url)}
