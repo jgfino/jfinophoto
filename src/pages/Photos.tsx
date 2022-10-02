@@ -21,7 +21,7 @@ const Photos = () => {
   useEffect(() => {
     getPortolio()
       .then((data) => {
-        setImages(data.sort(() => 0.5 - Math.random()));
+        setImages(data);
       })
       .catch((e) => {
         console.log(e);
