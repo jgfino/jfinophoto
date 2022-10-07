@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Lightbox from "react-image-lightbox";
 import styled from "styled-components";
 import useWindowDimensions from "../utils/useWindowDimensions";
@@ -27,7 +27,9 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   const { width } = useWindowDimensions();
 
   const [mappedImages, setMappedImages] = useState<OrientationImage[]>([]);
-  const [numColumns, setNumColumns] = useState(5);
+  const [numColumns, setNumColumns] = useState(7);
+
+  const shouldKeepLoading = useRef(false);
 
   useEffect(() => {
     let newCols = 5;
@@ -39,8 +41,12 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
       newCols = 3;
     } else if (width < 1200) {
       newCols = 4;
-    } else {
+    } else if (width < 2000) {
       newCols = 5;
+    } else if (width < 2800) {
+      newCols = 6;
+    } else {
+      newCols = 7;
     }
 
     if (small && newCols > 2) {
@@ -51,19 +57,21 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   }, [width, small]);
 
   useEffect(() => {
-    const tempImages: OrientationImage[] = [];
-    images.forEach((url) => {
+    images.forEach((url, index) => {
       const img = new Image();
       img.referrerPolicy = "no-referrer";
       img.src = url;
       img.onload = () => {
         if (img.width > img.height) {
-          tempImages.push({ url, orientation: "landscape" });
+          setMappedImages((prev) => [
+            ...prev,
+            { url, orientation: "landscape" },
+          ]);
         } else {
-          tempImages.push({ url, orientation: "portrait" });
-        }
-        if (tempImages.length === images.length) {
-          setMappedImages(tempImages);
+          setMappedImages((prev) => [
+            ...prev,
+            { url, orientation: "portrait" },
+          ]);
         }
       };
     });

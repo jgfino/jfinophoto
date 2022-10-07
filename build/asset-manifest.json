@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.26746342.css",
-    "main.js": "/static/js/main.6d354628.js",
+    "main.js": "/static/js/main.a3c7c2a2.js",
     "static/js/787.d19e57a5.chunk.js": "/static/js/787.d19e57a5.chunk.js",
     "static/media/julia.jpg": "/static/media/julia.a2308a739f00e67e6d96.jpg",
     "static/media/barlow-semi-condensed-all-400-normal.woff": "/static/media/barlow-semi-condensed-all-400-normal.855c338fb410468a63a4.woff",
@@ -10,11 +10,11 @@
     "static/media/barlow-semi-condensed-vietnamese-400-normal.woff2": "/static/media/barlow-semi-condensed-vietnamese-400-normal.3df6e901739d10656ad7.woff2",
     "index.html": "/index.html",
     "main.26746342.css.map": "/static/css/main.26746342.css.map",
-    "main.6d354628.js.map": "/static/js/main.6d354628.js.map",
+    "main.a3c7c2a2.js.map": "/static/js/main.a3c7c2a2.js.map",
     "787.d19e57a5.chunk.js.map": "/static/js/787.d19e57a5.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.26746342.css",
-    "static/js/main.6d354628.js"
+    "static/js/main.a3c7c2a2.js"
   ]
 }
