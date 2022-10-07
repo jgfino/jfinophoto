@@ -6,8 +6,8 @@ import HeaderBar from "../components/HeaderBar";
 import { ConcertDetails } from "../types";
 import ErrorPage from "../components/ErrorPage";
 import LoadingPage from "../components/LoadingPage";
-import MasonryLightbox from "../components/MasonryLightbox";
 import FooterBar from "../components/FooterBar";
+import LightboxGrid from "../components/LightboxGrid";
 
 const Concert = () => {
   const [concert, setConcert] = useState<ConcertDetails>();
@@ -37,21 +37,12 @@ const Concert = () => {
 
   return (
     <Container>
-      <HeaderBar activePath="concerts" />
-      <Title>{concert.artist}</Title>
-      <SubTitle>{`${concert.venue} || ${concert.date}`}</SubTitle>
-      <MasonryLightbox
-        images={concert.photos}
-        spacing="0.5em"
-        columnsCountBreakPoints={{
-          default: 6,
-          500: 1,
-          750: 2,
-          900: 3,
-          1200: 4,
-          1500: 5,
-        }}
-      />
+      <div>
+        <HeaderBar activePath="concerts" />
+        <Title>{concert.artist}</Title>
+        <SubTitle>{`${concert.venue} || ${concert.date}`}</SubTitle>
+      </div>
+      <LightboxGrid small images={concert.photos} />
       <FooterBar />
     </Container>
   );
@@ -66,6 +57,7 @@ const Container = styled.div`
   min-height: 100vh;
   justify-content: space-between;
   text-align: center;
+  overflow: hidden;
 `;
 
 const Title = styled.p`
