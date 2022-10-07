@@ -29,8 +29,6 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   const [mappedImages, setMappedImages] = useState<OrientationImage[]>([]);
   const [numColumns, setNumColumns] = useState(7);
 
-  const shouldKeepLoading = useRef(false);
-
   useEffect(() => {
     let newCols = 5;
     if (width < 500) {
@@ -57,7 +55,8 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   }, [width, small]);
 
   useEffect(() => {
-    images.forEach((url, index) => {
+    setMappedImages([]);
+    images.forEach((url) => {
       const img = new Image();
       img.referrerPolicy = "no-referrer";
       img.src = url;
