@@ -142,9 +142,11 @@ export default MasonryLightbox;
 
 const Grid = styled.div`
   display: grid;
-  grid-gap: 0.5em;
+  grid-gap: 0.8em;
   grid-auto-flow: row dense;
-  margin-top: 1em;
+  margin-top: 2em;
+  margin-left: 4em;
+  margin-right: 4em;
 `;
 
 const HImage = styled.img`
