@@ -10,7 +10,7 @@ export interface ConcertPreview extends ConcertBase {
 }
 
 export interface ConcertDetails extends ConcertBase {
-  photos: string[];
+  photos: ConcertImage[];
 }
 
 export interface ConcertImage extends ConcertBase {

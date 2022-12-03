@@ -6,7 +6,6 @@ import LoadingPage from "../components/LoadingPage";
 import { getPortolio } from "../apiClient";
 import ErrorPage from "../components/ErrorPage";
 import FooterBar from "../components/FooterBar";
-import useWindowDimensions from "../utils/useWindowDimensions";
 import { ConcertImage } from "../types";
 import LightboxGrid from "../components/LightboxGrid";
 
@@ -32,9 +31,16 @@ const Photos = () => {
       .catch((e) => {
         console.log(e);
         setError(true);
-      })
-      .finally(() => setLoading(false));
+      });
   }, []);
+
+  useEffect(() => {
+    if (images) {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }
+  }, [images]);
 
   if (loading) return <LoadingPage />;
   if (error) return <ErrorPage />;
@@ -49,11 +55,7 @@ const Photos = () => {
           </RefreshButton>
         </RefreshContainer>
       </div>
-      <LightboxGrid
-        images={images.map((i) => i.url)}
-        titles={images.map((image) => image.artist)}
-        captions={images.map((image) => `${image.venue} | ${image.date}`)}
-      />
+      <LightboxGrid images={images} />
       <FooterBar />
     </Container>
   );

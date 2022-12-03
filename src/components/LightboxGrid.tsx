@@ -1,28 +1,28 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Lightbox from "react-image-lightbox";
 import styled from "styled-components";
+import { ConcertImage } from "../types";
 import useWindowDimensions from "../utils/useWindowDimensions";
 
 interface MasonryLightboxProps {
-  images: string[];
-  titles?: string[];
-  captions?: string[];
+  images: ConcertImage[];
+  showCaption?: boolean;
   small?: boolean;
 }
 
-interface OrientationImage {
+interface OrientationImage extends ConcertImage {
   url: string;
   orientation: "landscape" | "portrait";
 }
 
 const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   images,
-  titles,
-  captions,
+  showCaption = true,
   small,
 }) => {
   const [photoIndex, setPhotoIndex] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
+
+  const [openPhoto, setOpenPhoto] = useState<ConcertImage>();
 
   const { width } = useWindowDimensions();
 
@@ -56,25 +56,28 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
 
   useEffect(() => {
     setMappedImages([]);
-    images.forEach((url) => {
+    images.forEach((image) => {
       const img = new Image();
       img.referrerPolicy = "no-referrer";
-      img.src = url;
+      img.src = image.url;
       img.onload = () => {
         if (img.width > img.height) {
           setMappedImages((prev) => [
             ...prev,
-            { url, orientation: "landscape" },
+            { ...image, orientation: "landscape" },
           ]);
         } else {
           setMappedImages((prev) => [
             ...prev,
-            { url, orientation: "portrait" },
+            { ...image, orientation: "portrait" },
           ]);
         }
       };
     });
   }, [images]);
+
+  // titles={images.map((image) => image.artist)}
+  //  captions={images.map((image) => `${image.venue} | ${image.date}`)}
 
   return (
     <div>
@@ -88,39 +91,47 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
         {mappedImages.map((image, index) =>
           image.orientation === "landscape" ? (
             <HImage
+              key={index}
               onClick={() => {
                 setPhotoIndex(index);
-                setIsOpen(true);
+                setOpenPhoto(image);
               }}
               src={image.url}
             />
           ) : (
             <VImage
+              key={index}
               src={image.url}
               onClick={() => {
                 setPhotoIndex(index);
-                setIsOpen(true);
+                setOpenPhoto(image);
               }}
             />
           )
         )}
       </Grid>
-      {isOpen && (
+      {openPhoto && (
         <Lightbox
-          imageTitle={captions && captions[photoIndex]}
-          imageCaption={titles && titles[photoIndex]}
+          imageTitle={
+            showCaption ? `${openPhoto.venue} | ${openPhoto.date}` : undefined
+          }
+          imageCaption={showCaption ? openPhoto.artist : undefined}
           mainSrc={mappedImages[photoIndex].url}
           nextSrc={mappedImages[(photoIndex + 1) % images.length].url}
           prevSrc={
             mappedImages[(photoIndex + images.length - 1) % images.length].url
           }
-          onCloseRequest={() => setIsOpen(false)}
-          onMovePrevRequest={() =>
-            setPhotoIndex((photoIndex + images.length - 1) % images.length)
-          }
-          onMoveNextRequest={() =>
-            setPhotoIndex((photoIndex + 1) % images.length)
-          }
+          onCloseRequest={() => setOpenPhoto(undefined)}
+          onMovePrevRequest={() => {
+            const newIndex = (photoIndex + images.length - 1) % images.length;
+            setPhotoIndex(newIndex);
+            setOpenPhoto(mappedImages[newIndex]);
+          }}
+          onMoveNextRequest={() => {
+            const newIndex = (photoIndex + 1) % images.length;
+            setPhotoIndex(newIndex);
+            setOpenPhoto(mappedImages[newIndex]);
+          }}
         />
       )}
     </div>

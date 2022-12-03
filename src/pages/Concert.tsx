@@ -42,7 +42,7 @@ const Concert = () => {
         <Title>{concert.artist}</Title>
         <SubTitle>{`${concert.venue} || ${concert.date}`}</SubTitle>
       </div>
-      <LightboxGrid small images={concert.photos} />
+      <LightboxGrid showCaption={false} small images={concert.photos} />
       <FooterBar />
     </Container>
   );
