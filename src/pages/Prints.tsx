@@ -1,42 +1,43 @@
 import styled from "styled-components";
 import HeaderBar from "../components/HeaderBar";
-import julia from "../assets/julia.jpg";
 import FooterBar from "../components/FooterBar";
 
-const About = () => {
+const Prints = () => {
   return (
     <Container>
-      <HeaderBar activePath="about" />
+      <HeaderBar activePath="prints" />
       <InnerContainer>
         <CenterContainer>
-          <ImageContainer>
-            <Image src={julia} />
-          </ImageContainer>
           <AboutPanel>
             <AboutText>
-              Hi! I'm Julia, a photographer based in Boston, MA.
+              Select limited edition prints are available{" "}
+              <AboutLink href="https://jfinophoto.darkroom.com/" target="none">
+                HERE
+              </AboutLink>
               <br />
-              <br /> I started shooting concerts in 2021 and have absolutely
-              fallen in love with it! I'm currently a contributing photographer
-              for{" "}
-              <AboutLink href="https://www.tastemakersmag.com/" target="none">
-                Tastemakers Magazine
-              </AboutLink>
-              ,{" "}
-              <AboutLink href="https://www.framecodemag.com/" target="none">
-                FRAMECODE
-              </AboutLink>
-              ,and{" "}
+              <br />
+              If you see a photo you like, but don't see it available, please
+              contact me via{" "}
+              <AboutLink href="mailto:julia@jfinophoto.com" target="none">
+                email
+              </AboutLink>{" "}
+              or{" "}
               <AboutLink
-                href="https://disruptedmag.wixsite.com/online"
+                href="https://instagram.com/jfino.photo/"
                 target="none"
               >
-                Disrupted Magazine
-              </AboutLink>
-              , and I've had the opportunity to photograph some amazing artists!
+                Instagram
+              </AboutLink>{" "}
+              and we can try to work out a custom order. Same goes for custom
+              sizes.
               <br />
-              <br />I would love to work together, don't hesitate to{" "}
-              <AboutLink href="/contact">reach out!</AboutLink>
+              <br />
+              If you have a specific design or lyric art idea in mind, I can try
+              to work with you to create a custom piece!
+              <br />
+              <br />
+              <b>ARTISTS: </b>If there are any photos of yours that you do not
+              want on my site, please let me know and I will remove them.
             </AboutText>
           </AboutPanel>
         </CenterContainer>
@@ -46,7 +47,7 @@ const About = () => {
   );
 };
 
-export default About;
+export default Prints;
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.background};
@@ -69,21 +70,6 @@ const CenterContainer = styled.div`
   max-width: 1400px;
   align-items: center;
   margin: 2em;
-`;
-
-const ImageContainer = styled.div`
-  flex: 1;
-  flex-basis: 400px;
-  display: flex;
-  justify-content: center;
-  aspect-ratio: 2/3;
-  max-height: 800px;
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: auto;
-  object-fit: scale-down;
 `;
 
 const AboutPanel = styled.div`

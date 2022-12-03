@@ -4,15 +4,16 @@ import {
   IoLogoInstagram as LogoInstagram,
   IoLogoGithub as LogoGitHub,
   IoMailOpenOutline as Mail,
+  IoLogoTwitter as Twitter,
 } from "react-icons/io5";
 import React from "react";
 
 interface HeaderProps {
-  activePath: "portfolio" | "concerts" | "about" | "contact";
+  activePath: "portfolio" | "concerts" | "about" | "contact" | "prints";
 }
 
 const HeaderBar: React.FC<HeaderProps> = ({ activePath }) => {
-  const paths = ["portfolio", "concerts", "about", "contact"];
+  const paths = ["portfolio", "concerts", "about", "prints", "contact"];
   return (
     <Container>
       <Title to="/portfolio">JULIA FINOCCHIARO</Title>
@@ -33,6 +34,9 @@ const HeaderBar: React.FC<HeaderProps> = ({ activePath }) => {
           href="https://www.instagram.com/jfino.photo/"
         >
           <LogoInstagram size={"1.8rem"} />
+        </SocialButton>
+        <SocialButton target="_blank" href="https://twitter.com/jfinophoto">
+          <Twitter size={"1.8rem"} />
         </SocialButton>
         <SocialButton target="_blank" href="mailto:julia@jfinophoto.com">
           <Mail size={"1.8rem"} />

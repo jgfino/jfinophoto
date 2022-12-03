@@ -3,6 +3,7 @@ import {
   IoLogoInstagram as LogoInstagram,
   IoLogoGithub as LogoGitHub,
   IoMailOpenOutline as Mail,
+  IoLogoTwitter as Twitter,
 } from "react-icons/io5";
 import React from "react";
 
@@ -15,6 +16,9 @@ const FooterBar: React.FC = () => {
           href="https://www.instagram.com/jfino.photo/"
         >
           <LogoInstagram size={"1.5rem"} />
+        </SocialButton>
+        <SocialButton target="_blank" href="https://twitter.com/jfinophoto">
+          <Twitter size={"1.5rem"} />
         </SocialButton>
         <SocialButton target="_blank" href="mailto:julia@jfinophoto.com">
           <Mail size={"1.5rem"} />
