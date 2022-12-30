@@ -8,6 +8,8 @@ import {
 } from "react-icons/io5";
 import React, { Fragment } from "react";
 import { slide as Menu } from "react-burger-menu";
+import { isMobile } from "react-device-detect";
+import { IconType } from "react-icons";
 
 interface HeaderProps {
   activePath: "live" | "galleries" | "about" | "contact";
@@ -16,14 +18,14 @@ interface HeaderProps {
 const HeaderBar: React.FC<HeaderProps> = ({ activePath }) => {
   const theme = useTheme();
   const paths = ["live", "galleries", "about", "contact"];
-  const [isMobile, setIsMobile] = React.useState(false);
+  const [small, setSmall] = React.useState(false);
 
   React.useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 890) {
-        setIsMobile(true);
+        setSmall(true);
       } else {
-        setIsMobile(false);
+        setSmall(false);
       }
     };
     window.addEventListener("resize", handleResize);
@@ -34,8 +36,8 @@ const HeaderBar: React.FC<HeaderProps> = ({ activePath }) => {
   const styles = {
     bmBurgerButton: {
       position: "fixed",
-      width: "36px",
-      height: "30px",
+      width: "48px",
+      height: "32px",
       left: "32px",
       top: "36px",
     },
@@ -69,29 +71,35 @@ const HeaderBar: React.FC<HeaderProps> = ({ activePath }) => {
     },
   };
 
-  const renderSocials = () => (
+  const renderSocial = (link: string, large: boolean, Component: IconType) => (
+    <SocialButton target="_blank" href={link}>
+      <Component size={large ? "4rem" : "1.8rem"} />
+    </SocialButton>
+  );
+
+  const renderSocials = (large = false) => (
     <>
-      <SocialButton
-        target="_blank"
-        href="https://www.instagram.com/jfino.photo/"
-      >
-        <LogoInstagram size={"1.8rem"} />
-      </SocialButton>
-      <SocialButton target="_blank" href="https://twitter.com/jfinophoto">
-        <Twitter size={"1.8rem"} />
-      </SocialButton>
-      <SocialButton target="_blank" href="mailto:julia@jfinophoto.com">
-        <Mail size={"1.8rem"} />
-      </SocialButton>
-      <SocialButton target="_blank" href="https://github.com/jgfino">
-        <LogoGitHub size={"1.8rem"} />
-      </SocialButton>
+      {renderSocial(
+        "https://www.instagram.com/jfino.photo/",
+        large,
+        LogoInstagram
+      )}
+      {large && <br />}
+      {large && <br />}
+      {renderSocial("https://twitter.com/jfinophoto", large, Twitter)}
+      {large && <br />}
+      {large && <br />}
+      {renderSocial("mailto:julia@jfinophoto.com", large, Mail)}
+      {large && <br />}
+      {large && <br />}
+      {renderSocial("https://github.com/jgfino", large, LogoGitHub)}
     </>
   );
 
-  return isMobile ? (
-    <Menu styles={styles}>
+  return isMobile || small ? (
+    <Menu width="50%" styles={styles}>
       <SideTitle to="/">JULIA FINOCCHIARO</SideTitle>
+      <br />
       <br />
       {paths.map((path) => (
         <Fragment key={path}>
@@ -109,7 +117,8 @@ const HeaderBar: React.FC<HeaderProps> = ({ activePath }) => {
         </Fragment>
       ))}
       <br />
-      {renderSocials()}
+      <br />
+      {renderSocials(true)}
     </Menu>
   ) : (
     <Container>
@@ -161,7 +170,7 @@ const Container = styled.div`
 
 const MenuItem = styled(NavLink)`
   ${MenuCss}
-  font-size: 1.5em;
+  font-size: 3.5em;
 `;
 
 const NavBar = styled.div`
@@ -195,6 +204,6 @@ const Title = styled(NavLink)`
 
 const SideTitle = styled(NavLink)`
   ${TitleCss}
-  font-size: 1.7em;
+  font-size: 3em;
   margin-bottom: 1rem;
 `;

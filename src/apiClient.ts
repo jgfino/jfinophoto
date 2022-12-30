@@ -6,7 +6,7 @@ import {
   ContactForm,
 } from "./types";
 
-const baseUrl = "http://localhost:3001";
+const baseUrl = "https://api.jfinophoto.com";
 
 export const getPortolio = async () => {
   const images: ConcertImage[] = (await axios.get(`${baseUrl}/portfolio`)).data;

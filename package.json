@@ -21,7 +21,7 @@
     "googleapis": "^100.0.0",
     "react": "^18.0.0",
     "react-burger-menu": "^3.0.8",
-    "react-device-detect": "github:alexdrimbe/react-device-detect",
+    "react-device-detect": "^2.2.2",
     "react-dom": "^18.0.0",
     "react-icons": "^4.3.1",
     "react-image-lightbox": "^5.1.4",

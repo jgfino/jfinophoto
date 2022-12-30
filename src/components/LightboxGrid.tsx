@@ -3,6 +3,7 @@ import Lightbox from "react-image-lightbox";
 import styled from "styled-components";
 import { ConcertImage } from "../types";
 import useWindowDimensions from "../utils/useWindowDimensions";
+import { isMobile } from "react-device-detect";
 
 interface MasonryLightboxProps {
   images: ConcertImage[];
@@ -30,7 +31,7 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   const [numColumns, setNumColumns] = useState(7);
 
   useEffect(() => {
-    let newCols = Math.max(2, width / 300);
+    let newCols = isMobile ? 2 : Math.max(2, width / 300);
 
     if (small && newCols > 2) {
       newCols += 1;
@@ -96,6 +97,7 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
         )}
       </Grid>
       {openPhoto && (
+        // @ts-ignore
         <Lightbox
           imageTitle={
             showCaption
