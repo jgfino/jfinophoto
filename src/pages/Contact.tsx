@@ -30,7 +30,7 @@ const Contact = () => {
       <HeaderBar activePath="contact" />
       <InnerContainer>
         <FormContainer>
-          <Title>Contact Me!</Title>
+          <Title>CONTACT ME!</Title>
           <Formik
             validateOnChange={false}
             validateOnBlur={false}
@@ -176,15 +176,13 @@ const Title = styled.p`
   font-family: ${({ theme }) => theme.fontFamily.main};
   color: ${({ theme }) => theme.colors.text};
   margin: 0;
-  margin-bottom: 4rem;
-  font-weight: bold;
+  margin-bottom: 3rem;
+  font-weight: 400;
   text-decoration: none;
   text-align: center;
 `;
 
 const FormContainer = styled.div`
-  min-width: 1000px;
-  max-width: 2000px;
   margin-top: 4rem;
   text-align: center;
   display: flex;
@@ -201,8 +199,8 @@ const FormTable = styled.table`
 `;
 
 const Label = styled.label`
-  font-size: 1.5em;
-  font-family: ${({ theme }) => theme.fontFamily.main};
+  font-size: 1.3em;
+  font-family: ${({ theme }) => theme.fontFamily.text};
   color: ${({ theme }) => theme.colors.text};
   text-align: right;
 `;
@@ -211,7 +209,7 @@ const ErrorText = styled.p`
   font-size: 1em;
   font-style: italic;
   color: ${({ theme }) => theme.colors.text};
-  font-family: ${({ theme }) => theme.fontFamily.main};
+  font-family: ${({ theme }) => theme.fontFamily.text};
   margin: 0.2em;
   margin-bottom: 2em;
 `;

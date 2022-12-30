@@ -18,7 +18,7 @@ const ConcertTile: React.FC<ConcertTileProps> = ({
   dest,
 }) => {
   return (
-    <Container to={`/concerts/${dest}`}>
+    <Container to={`/galleries/${dest}`}>
       <ImageHolder>
         <Cover src={image} referrerPolicy="no-referrer" />
       </ImageHolder>
@@ -53,22 +53,22 @@ const Cover = styled.img`
 `;
 
 const DateText = styled.p`
-  font-size: 1em;
+  font-size: 1.4em;
   font-family: ${({ theme }) => theme.fontFamily.main};
   color: ${({ theme }) => theme.colors.text};
   margin: 0;
 `;
 
 const Title = styled.p`
-  font-size: 1.8em;
+  font-size: 2.2em;
   font-family: ${({ theme }) => theme.fontFamily.main};
   color: ${({ theme }) => theme.colors.text};
   margin: 0;
-  font-weight: bold;
+  font-weight: 500;
 `;
 
 const SubTitle = styled.p`
-  font-size: 1.2em;
+  font-size: 1.4em;
   font-family: ${({ theme }) => theme.fontFamily.main};
   color: ${({ theme }) => theme.colors.text};
   margin: 0;

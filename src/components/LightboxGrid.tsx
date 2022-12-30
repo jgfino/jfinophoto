@@ -30,22 +30,7 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   const [numColumns, setNumColumns] = useState(7);
 
   useEffect(() => {
-    let newCols = 5;
-    if (width < 500) {
-      newCols = 1;
-    } else if (width < 750) {
-      newCols = 2;
-    } else if (width < 1000) {
-      newCols = 3;
-    } else if (width < 1200) {
-      newCols = 4;
-    } else if (width < 2000) {
-      newCols = 5;
-    } else if (width < 2800) {
-      newCols = 6;
-    } else {
-      newCols = 7;
-    }
+    let newCols = Math.max(2, width / 300);
 
     if (small && newCols > 2) {
       newCols += 1;
@@ -113,9 +98,10 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
       {openPhoto && (
         <Lightbox
           imageTitle={
-            showCaption ? `${openPhoto.venue} | ${openPhoto.date}` : undefined
+            showCaption
+              ? `${openPhoto.artist} | ${openPhoto.venue} | ${openPhoto.date}`
+              : undefined
           }
-          imageCaption={showCaption ? openPhoto.artist : undefined}
           mainSrc={mappedImages[photoIndex].url}
           nextSrc={mappedImages[(photoIndex + 1) % images.length].url}
           prevSrc={
@@ -144,9 +130,9 @@ const Grid = styled.div`
   display: grid;
   grid-gap: 0.8em;
   grid-auto-flow: row dense;
-  margin-top: 2em;
-  margin-left: 4em;
-  margin-right: 4em;
+  margin-top: 1.5em;
+  margin-left: 5rem;
+  margin-right: 5rem;
 `;
 
 const HImage = styled.img`

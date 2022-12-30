@@ -28,7 +28,7 @@ const Concerts = () => {
 
   return (
     <Container>
-      <HeaderBar activePath="concerts" />
+      <HeaderBar activePath="galleries" />
       <GridContainer>
         {concerts.map((concert) => (
           <ConcertTile
@@ -58,11 +58,11 @@ const Container = styled.div`
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
   grid-gap: 3em;
-  margin-top: 1.5em;
-  margin-left: 1.5em;
-  margin-right: 1.5em;
+  margin-top: 2em;
+  margin-left: 5rem;
+  margin-right: 5rem;
   padding-bottom: 1.5em;
   height: 100%;
   background-color: ${({ theme }) => theme.colors.background};

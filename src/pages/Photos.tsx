@@ -16,7 +16,6 @@ function shuffle<T>(arr: T[]) {
 const Photos = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-
   const [images, setImages] = useState<ConcertImage[]>([]);
 
   const onShuffle = () => {
@@ -42,20 +41,19 @@ const Photos = () => {
     }
   }, [images]);
 
-  if (loading) return <LoadingPage />;
   if (error) return <ErrorPage />;
 
   return (
     <Container>
       <div>
-        <HeaderBar activePath="portfolio" />
+        <HeaderBar activePath="live" />
         <RefreshContainer>
           <RefreshButton onClick={onShuffle}>
             <Shuffle size={"2em"} />
           </RefreshButton>
         </RefreshContainer>
       </div>
-      <LightboxGrid images={images} />
+      {loading ? <LoadingPage /> : <LightboxGrid images={images} />}
       <FooterBar />
     </Container>
   );
@@ -75,6 +73,7 @@ const Container = styled.div`
 const RefreshContainer = styled.div`
   display: flex;
   justify-content: center;
+  margin-top: 36px;
 `;
 
 const RefreshButton = styled.button`

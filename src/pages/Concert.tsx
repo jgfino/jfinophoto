@@ -38,8 +38,9 @@ const Concert = () => {
   return (
     <Container>
       <div>
-        <HeaderBar activePath="concerts" />
+        <HeaderBar activePath="galleries" />
         <Title>{concert.artist}</Title>
+        <br />
         <SubTitle>{`${concert.venue} || ${concert.date}`}</SubTitle>
       </div>
       <LightboxGrid showCaption={false} small images={concert.photos} />
@@ -60,18 +61,15 @@ const Container = styled.div`
   overflow: hidden;
 `;
 
-const Title = styled.p`
+const Title = styled.span`
   font-size: 3.5rem;
   font-family: ${({ theme }) => theme.fontFamily.main};
   color: ${({ theme }) => theme.colors.text};
-  margin: 0;
   font-weight: bold;
-  margin-bottom: 10px;
 `;
 
-const SubTitle = styled.p`
-  font-size: 1.5rem;
+const SubTitle = styled.span`
+  font-size: 1.7rem;
   font-family: ${({ theme }) => theme.fontFamily.main};
   color: ${({ theme }) => theme.colors.text};
-  margin: 0;
 `;

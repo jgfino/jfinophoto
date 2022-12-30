@@ -52,7 +52,7 @@ const StyledPopup = styled(Popup)`
 const MsgText = styled.p`
   font-size: 1em;
   color: ${({ theme }) => theme.colors.text};
-  font-family: ${({ theme }) => theme.fontFamily.main};
+  font-family: ${({ theme }) => theme.fontFamily.text};
   display: flex;
   flex: 2;
 `;
@@ -73,7 +73,7 @@ const Button = styled.button`
 const ButtonText = styled.span`
   color: ${({ theme }) => theme.colors.background};
   font-size: 1em;
-  font-family: "Barlow Semi Condensed";
+  font-family: ${({ theme }) => theme.fontFamily.main};
   font-weight: bold;
   display: flex;
 `;

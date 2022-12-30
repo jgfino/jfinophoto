@@ -23,7 +23,7 @@ const Input = styled(Field)`
   font-size: 1em;
   padding: 0.6em;
   border-radius: 10px;
-  font-family: ${({ theme }) => theme.fontFamily.main};
+  font-family: ${({ theme }) => theme.fontFamily.text};
   color: black;
   border-width: 1.5px;
   border-color: ${({ theme }) => theme.colors.text};

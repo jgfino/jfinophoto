@@ -16,9 +16,8 @@ const About = () => {
             <AboutText>
               Hi! I'm Julia, a photographer based in Boston, MA.
               <br />
-              <br /> I started shooting concerts in 2021 and have absolutely
-              fallen in love with it! I'm currently a contributing photographer
-              for{" "}
+              <br /> I started shooting concerts in 2021 and am currently a
+              contributing photographer for{" "}
               <AboutLink href="https://www.tastemakersmag.com/" target="none">
                 Tastemakers Magazine
               </AboutLink>
@@ -37,6 +36,33 @@ const About = () => {
               <br />
               <br />I would love to work together, don't hesitate to{" "}
               <AboutLink href="/contact">reach out!</AboutLink>
+              <br />
+              <br />
+              <br />
+              See a photo you like? Select limited edition <b>prints</b> are
+              available{" "}
+              <AboutLink href="https://jfinophoto.darkroom.com/" target="none">
+                HERE
+              </AboutLink>
+              <br />
+              <br />
+              If you see a photo you like, but don't see it available, please
+              contact me via{" "}
+              <AboutLink href="mailto:julia@jfinophoto.com" target="none">
+                email
+              </AboutLink>{" "}
+              or{" "}
+              <AboutLink
+                href="https://instagram.com/jfino.photo/"
+                target="none"
+              >
+                Instagram
+              </AboutLink>{" "}
+              and we can try to work out a custom order.
+              <br />
+              <br />
+              <b>ARTISTS: </b>If there are any photos of yours that you do not
+              want on my site, please let me know and I will remove them.
             </AboutText>
           </AboutPanel>
         </CenterContainer>
@@ -73,11 +99,11 @@ const CenterContainer = styled.div`
 
 const ImageContainer = styled.div`
   flex: 1;
-  flex-basis: 400px;
+  flex-basis: 200px;
   display: flex;
   justify-content: center;
   aspect-ratio: 2/3;
-  max-height: 800px;
+  max-height: 400px;
 `;
 
 const Image = styled.img`
@@ -98,8 +124,8 @@ const AboutPanel = styled.div`
 `;
 
 const AboutText = styled.p`
-  font-size: 1.7em;
-  font-family: ${({ theme }) => theme.fontFamily.main};
+  font-size: 1.4em;
+  font-family: ${({ theme }) => theme.fontFamily.text};
   color: ${({ theme }) => theme.colors.text};
   line-height: 1.2em;
 `;

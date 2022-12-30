@@ -8,7 +8,6 @@ import Contact from "./pages/Contact";
 import Concerts from "./pages/Concerts";
 import Concert from "./pages/Concert";
 import ErrorPage from "./components/ErrorPage";
-import Prints from "./pages/Prints";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark" | undefined>(
@@ -38,11 +37,10 @@ function App() {
     <ThemeProvider theme={theme}>
       <Routes>
         <Route path="/" element={<Photos />} />
-        <Route path="/portfolio" element={<Photos />} />
-        <Route path="/concerts" element={<Concerts />} />
-        <Route path="/concerts/:id" element={<Concert />} />
+        <Route path="/live" element={<Photos />} />
+        <Route path="/galleries" element={<Concerts />} />
+        <Route path="/galleries/:id" element={<Concert />} />
         <Route path="/about" element={<About />} />
-        <Route path="/prints" element={<Prints />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
