@@ -3,17 +3,12 @@ import Lightbox from "react-image-lightbox";
 import styled from "styled-components";
 import { ConcertImage } from "../types";
 import useWindowDimensions from "../utils/useWindowDimensions";
-import { isMobile } from "react-device-detect";
+import HoverImage, { HoverImageProps } from "./HoverGridImage";
 
 interface MasonryLightboxProps {
   images: ConcertImage[];
   showCaption?: boolean;
   small?: boolean;
-}
-
-interface OrientationImage extends ConcertImage {
-  url: string;
-  orientation: "landscape" | "portrait";
 }
 
 const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
@@ -25,20 +20,27 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
 
   const [openPhoto, setOpenPhoto] = useState<ConcertImage>();
 
-  const { width } = useWindowDimensions();
+  const {
+    windowDimensions: { width },
+    shouldRenderMobile,
+    isTablet,
+  } = useWindowDimensions();
 
-  const [mappedImages, setMappedImages] = useState<OrientationImage[]>([]);
+  const [mappedImages, setMappedImages] = useState<HoverImageProps[]>([]);
   const [numColumns, setNumColumns] = useState(7);
 
   useEffect(() => {
-    let newCols = isMobile ? 2 : Math.max(2, width / 300);
+    const deskCols = Math.max(2, width / 300);
+    let newCols = Math.ceil(
+      shouldRenderMobile ? (isTablet ? deskCols : 2) : deskCols
+    );
 
-    if (small && newCols > 2) {
+    if (small && newCols >= 2) {
       newCols += 1;
     }
 
     setNumColumns(newCols);
-  }, [width, small]);
+  }, [width, small, shouldRenderMobile]);
 
   useEffect(() => {
     setMappedImages([]);
@@ -62,9 +64,6 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
     });
   }, [images]);
 
-  // titles={images.map((image) => image.artist)}
-  //  captions={images.map((image) => `${image.venue} | ${image.date}`)}
-
   return (
     <div>
       <Grid
@@ -74,27 +73,18 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
           }%, 1fr))`,
         }}
       >
-        {mappedImages.map((image, index) =>
-          image.orientation === "landscape" ? (
-            <HImage
-              key={index}
-              onClick={() => {
-                setPhotoIndex(index);
-                setOpenPhoto(image);
-              }}
-              src={image.url}
-            />
-          ) : (
-            <VImage
-              key={index}
-              src={image.url}
-              onClick={() => {
-                setPhotoIndex(index);
-                setOpenPhoto(image);
-              }}
-            />
-          )
-        )}
+        {mappedImages.map((image, index) => (
+          <HoverImage
+            {...image}
+            showOverlay={showCaption}
+            orientation={image.orientation}
+            url={image.url}
+            onClick={() => {
+              setPhotoIndex(index);
+              setOpenPhoto(image);
+            }}
+          />
+        ))}
       </Grid>
       {openPhoto && (
         // @ts-ignore
@@ -135,22 +125,4 @@ const Grid = styled.div`
   margin-top: 1.5em;
   margin-left: 5rem;
   margin-right: 5rem;
-`;
-
-const HImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  grid-column-end: span 2;
-  pointer: cursor;
-  zindex: 3;
-`;
-
-const VImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  grid-row-end: span 1;
-  pointer: cursor;
-  zindex: 3;
 `;

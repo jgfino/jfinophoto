@@ -8,8 +8,8 @@ import {
 } from "react-icons/io5";
 import React, { Fragment } from "react";
 import { slide as Menu } from "react-burger-menu";
-import { isMobile } from "react-device-detect";
 import { IconType } from "react-icons";
+import useWindowDimensions from "../utils/useWindowDimensions";
 
 interface HeaderProps {
   activePath: "live" | "galleries" | "about" | "contact";
@@ -18,28 +18,15 @@ interface HeaderProps {
 const HeaderBar: React.FC<HeaderProps> = ({ activePath }) => {
   const theme = useTheme();
   const paths = ["live", "galleries", "about", "contact"];
-  const [small, setSmall] = React.useState(false);
-
-  React.useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 890) {
-        setSmall(true);
-      } else {
-        setSmall(false);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const { shouldRenderMobile } = useWindowDimensions();
 
   const styles = {
     bmBurgerButton: {
       position: "fixed",
-      width: "48px",
-      height: "32px",
-      left: "32px",
-      top: "36px",
+      width: "2.5rem",
+      height: "1.8rem",
+      left: "1.25rem",
+      top: "2rem",
     },
     bmBurgerBars: {
       background: theme.colors.text,
@@ -73,7 +60,7 @@ const HeaderBar: React.FC<HeaderProps> = ({ activePath }) => {
 
   const renderSocial = (link: string, large: boolean, Component: IconType) => (
     <SocialButton target="_blank" href={link}>
-      <Component size={large ? "4rem" : "1.8rem"} />
+      <Component size={large ? "3rem" : "1.8rem"} />
     </SocialButton>
   );
 
@@ -96,7 +83,7 @@ const HeaderBar: React.FC<HeaderProps> = ({ activePath }) => {
     </>
   );
 
-  return isMobile || small ? (
+  return shouldRenderMobile ? (
     <Menu width="50%" styles={styles}>
       <SideTitle to="/">JULIA FINOCCHIARO</SideTitle>
       <br />
@@ -170,7 +157,7 @@ const Container = styled.div`
 
 const MenuItem = styled(NavLink)`
   ${MenuCss}
-  font-size: 3.5em;
+  font-size: 3em;
 `;
 
 const NavBar = styled.div`

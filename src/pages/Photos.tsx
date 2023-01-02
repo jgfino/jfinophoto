@@ -8,10 +8,17 @@ import ErrorPage from "../components/ErrorPage";
 import FooterBar from "../components/FooterBar";
 import { ConcertImage } from "../types";
 import LightboxGrid from "../components/LightboxGrid";
-import { isMobile } from "react-device-detect";
 
-function shuffle<T>(arr: T[]) {
-  return [...arr.sort(() => Math.random() - 0.5)];
+export function shuffle<T>(arr: T[]) {
+  const array = [...arr];
+  let i = array.length - 1;
+  for (i; i > 0; i--) {
+    const j = Math.floor(Math.random() * i);
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
 }
 
 const Photos = () => {
@@ -20,7 +27,9 @@ const Photos = () => {
   const [images, setImages] = useState<ConcertImage[]>([]);
 
   const onShuffle = () => {
-    setImages((prev) => shuffle(prev));
+    setImages((prev) => {
+      return shuffle(shuffle(prev));
+    });
   };
 
   useEffect(() => {
@@ -81,9 +90,9 @@ const RefreshButton = styled.button`
   color: ${({ theme }) => theme.colors.background};
   background-color: ${({ theme }) => theme.colors.text};
   border: none;
-  width: ${() => (isMobile ? "20em" : "13em")};
+  width: 15em;
   cursor: pointer;
   border-radius: 1em;
   align-self: center;
-  padding: ${() => (isMobile ? "1.5em" : "0.5em")};
+  padding: 1em;
 `;

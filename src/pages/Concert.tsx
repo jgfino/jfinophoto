@@ -8,6 +8,7 @@ import ErrorPage from "../components/ErrorPage";
 import LoadingPage from "../components/LoadingPage";
 import FooterBar from "../components/FooterBar";
 import LightboxGrid from "../components/LightboxGrid";
+import { shuffle } from "./Photos";
 
 const Concert = () => {
   const [concert, setConcert] = useState<ConcertDetails>();
@@ -20,7 +21,7 @@ const Concert = () => {
     if (!id) return;
     getConcert(id)
       .then((data) => {
-        data.photos = data.photos.sort(() => 0.5 - Math.random());
+        data.photos = shuffle(data.photos);
         setConcert(data);
       })
       .catch((e) => {
@@ -37,12 +38,11 @@ const Concert = () => {
 
   return (
     <Container>
-      <div>
-        <HeaderBar activePath="galleries" />
+      <HeaderBar activePath="galleries" />
+      <TitleContainer>
         <Title>{concert.artist}</Title>
-        <br />
         <SubTitle>{`${concert.venue} || ${concert.date}`}</SubTitle>
-      </div>
+      </TitleContainer>
       <LightboxGrid showCaption={false} small images={concert.photos} />
       <FooterBar />
     </Container>
@@ -57,7 +57,6 @@ const Container = styled.div`
   flex-direction: column;
   min-height: 100vh;
   justify-content: space-between;
-  text-align: center;
   overflow: hidden;
 `;
 
@@ -66,6 +65,13 @@ const Title = styled.span`
   font-family: ${({ theme }) => theme.fontFamily.main};
   color: ${({ theme }) => theme.colors.text};
   font-weight: bold;
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.5rem;
 `;
 
 const SubTitle = styled.span`
