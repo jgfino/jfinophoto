@@ -71,7 +71,13 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   }, [images, onLoaded]);
 
   return (
-    <div>
+    <div
+      style={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <Grid
         style={{
           gridTemplateColumns: `repeat(auto-fit, minmax(${
@@ -81,6 +87,7 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
       >
         {mappedImages.map((image, index) => (
           <HoverImage
+            order={index}
             key={image.url}
             {...image}
             showOverlay={showCaption}

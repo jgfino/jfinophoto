@@ -27,24 +27,30 @@ const Concert = () => {
       .catch((e) => {
         console.log(e);
         setError(true);
-      })
-      .finally(() => {
-        setLoading(false);
       });
   }, [id]);
 
-  if (loading) return <LoadingPage />;
-  if (error || !concert) return <ErrorPage />;
+  if (error) return <ErrorPage />;
 
   return (
     <Container>
       <HeaderBar activePath="galleries" />
-      <TitleContainer>
-        <Title>{concert.artist}</Title>
-        <SubTitle>{`${concert.venue} || ${concert.date}`}</SubTitle>
-      </TitleContainer>
-      <LightboxGrid showCaption={false} small images={concert.photos} />
-      <FooterBar />
+      {concert && (
+        <TitleContainer>
+          <Title>{concert.artist}</Title>
+          <SubTitle>{`${concert.venue} || ${concert.date}`}</SubTitle>
+        </TitleContainer>
+      )}
+      <InnerContainer>
+        <LightboxGrid
+          showCaption={false}
+          small
+          images={concert?.photos || []}
+          loading={loading}
+          onLoaded={() => setLoading(false)}
+        />
+        <FooterBar />
+      </InnerContainer>
     </Container>
   );
 };
@@ -56,8 +62,14 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+`;
+
+const InnerContainer = styled.div`
+  flex: 1;
+  height: 100%;
   justify-content: space-between;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Title = styled.span`

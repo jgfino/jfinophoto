@@ -7,6 +7,7 @@ export interface HoverImageProps extends ConcertImage {
   orientation: "landscape" | "portrait";
   showOverlay?: boolean;
   onClick?: () => void;
+  order?: number;
 }
 
 const HoverImage: React.FC<HoverImageProps> = ({
@@ -14,10 +15,15 @@ const HoverImage: React.FC<HoverImageProps> = ({
   orientation,
   onClick,
   showOverlay,
+  order,
   ...image
 }) => {
   return (
-    <Container orientation={orientation} onClick={onClick}>
+    <Container
+      orientation={orientation}
+      onClick={onClick}
+      style={{ order: order }}
+    >
       <Image src={url} />
       {showOverlay && (
         <Overlay>
