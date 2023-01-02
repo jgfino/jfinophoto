@@ -35,21 +35,13 @@ const Photos = () => {
   useEffect(() => {
     getPortolio()
       .then((data) => {
-        setImages(shuffle(data));
+        setImages(data);
       })
       .catch((e) => {
         console.log(e);
         setError(true);
       });
   }, []);
-
-  useEffect(() => {
-    if (images) {
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
-    }
-  }, [images]);
 
   if (error) return <ErrorPage />;
 
@@ -63,7 +55,11 @@ const Photos = () => {
           </RefreshButton>
         </RefreshContainer>
       </div>
-      {loading ? <LoadingPage /> : <LightboxGrid images={images} />}
+      <LightboxGrid
+        images={images}
+        loading={loading}
+        onLoaded={() => setLoading(false)}
+      />
       <FooterBar />
     </Container>
   );

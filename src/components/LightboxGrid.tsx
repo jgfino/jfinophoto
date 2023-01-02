@@ -1,20 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Lightbox from "react-image-lightbox";
 import styled from "styled-components";
 import { ConcertImage } from "../types";
 import useWindowDimensions from "../utils/useWindowDimensions";
 import HoverImage, { HoverImageProps } from "./HoverGridImage";
+import LoadingPage from "./LoadingPage";
 
 interface MasonryLightboxProps {
   images: ConcertImage[];
   showCaption?: boolean;
   small?: boolean;
+  loading?: boolean;
+  onLoaded?: () => void;
 }
 
 const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   images,
   showCaption = true,
   small,
+  loading,
+  onLoaded,
 }) => {
   const [photoIndex, setPhotoIndex] = useState(0);
 
@@ -27,6 +32,7 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   } = useWindowDimensions();
 
   const [mappedImages, setMappedImages] = useState<HoverImageProps[]>([]);
+  const tempMapped = useRef<HoverImageProps[]>([]);
   const [numColumns, setNumColumns] = useState(7);
 
   useEffect(() => {
@@ -50,19 +56,19 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
       img.src = image.url;
       img.onload = () => {
         if (img.width > img.height) {
-          setMappedImages((prev) => [
-            ...prev,
-            { ...image, orientation: "landscape" },
-          ]);
+          tempMapped.current.push({ ...image, orientation: "landscape" });
         } else {
-          setMappedImages((prev) => [
-            ...prev,
-            { ...image, orientation: "portrait" },
-          ]);
+          tempMapped.current.push({ ...image, orientation: "portrait" });
+        }
+
+        if (tempMapped.current.length === images.length) {
+          setMappedImages(tempMapped.current);
+          tempMapped.current = [];
+          onLoaded?.();
         }
       };
     });
-  }, [images]);
+  }, [images, onLoaded]);
 
   return (
     <div>
@@ -75,6 +81,7 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
       >
         {mappedImages.map((image, index) => (
           <HoverImage
+            key={image.url}
             {...image}
             showOverlay={showCaption}
             orientation={image.orientation}
@@ -112,6 +119,7 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
           }}
         />
       )}
+      {loading && <LoadingPage percentage />}
     </div>
   );
 };

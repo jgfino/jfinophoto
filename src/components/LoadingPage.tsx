@@ -2,9 +2,13 @@ import React from "react";
 import { BallTriangle } from "react-loader-spinner";
 import styled from "styled-components";
 
-const LoadingPage: React.FC = () => {
+interface LoadingPageProps {
+  percentage?: boolean;
+}
+
+const LoadingPage: React.FC<LoadingPageProps> = ({ percentage }) => {
   return (
-    <Container>
+    <Container percentage={percentage ?? false}>
       <StyledSpinner />
     </Container>
   );
@@ -12,14 +16,15 @@ const LoadingPage: React.FC = () => {
 
 export default LoadingPage;
 
-const Container = styled.div`
+const Container = styled.div<{ percentage: boolean }>`
   width: 100%;
-  height: 100vh;
+  height: ${(props) => (props.percentage ? "100%" : "100vh")};
   display: flex;
   flex: 1;
   align-items: center;
   justify-content: center;
   background-color: ${({ theme }) => theme.colors.background};
+  position: absolute;
 `;
 
 const StyledSpinner = styled(BallTriangle).attrs((props) => ({
