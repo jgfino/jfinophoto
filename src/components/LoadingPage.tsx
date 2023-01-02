@@ -24,7 +24,6 @@ const Container = styled.div<{ percentage: boolean }>`
   align-items: center;
   justify-content: center;
   background-color: ${({ theme }) => theme.colors.background};
-  position: absolute;
 `;
 
 const StyledSpinner = styled(BallTriangle).attrs((props) => ({
