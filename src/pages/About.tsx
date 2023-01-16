@@ -36,7 +36,7 @@ const About = () => {
               <br />
               <br />I would love to work together, don't hesitate to{" "}
               <AboutLink href="/contact">reach out!</AboutLink>
-              <br />
+              {/* <br />
               <br />
               <br />
               See a photo you like? Select limited edition <b>prints</b> are
@@ -62,7 +62,7 @@ const About = () => {
               <br />
               <br />
               <b>ARTISTS: </b>If there are any photos of yours that you do not
-              want on my site, please let me know and I will remove them.
+              want on my site, please let me know and I will remove them. */}
             </AboutText>
           </AboutPanel>
         </CenterContainer>
