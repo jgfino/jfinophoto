@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Lightbox from "react-image-lightbox";
 import styled from "styled-components";
 import { ConcertImage } from "../types";
@@ -14,6 +14,11 @@ interface MasonryLightboxProps {
   onLoaded?: () => void;
 }
 
+const getFullPreviewURL = (url: string, size: number) => {
+  const withoutSize = url.substring(0, url.lastIndexOf("=s"));
+  return `${withoutSize}=s${size}`;
+};
+
 const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   images,
   showCaption = true,
@@ -22,7 +27,6 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   onLoaded,
 }) => {
   const [photoIndex, setPhotoIndex] = useState(0);
-
   const [openPhoto, setOpenPhoto] = useState<ConcertImage>();
 
   const {
@@ -32,6 +36,10 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   } = useWindowDimensions();
 
   const [mappedImages, setMappedImages] = useState<HoverImageProps[]>([]);
+  const [fullImages, setFullImages] = useState<
+    (HTMLImageElement | undefined)[]
+  >([]);
+
   const tempMapped = useRef<HoverImageProps[]>([]);
   const [numColumns, setNumColumns] = useState(7);
 
@@ -48,17 +56,27 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
     setNumColumns(newCols);
   }, [width, small, shouldRenderMobile]);
 
+  console.log(width / numColumns);
+
   useEffect(() => {
     setMappedImages([]);
     images.forEach((image) => {
       const img = new Image();
       img.referrerPolicy = "no-referrer";
-      img.src = image.url;
+      img.src = getFullPreviewURL(image.url, 768);
       img.onload = () => {
         if (img.width > img.height) {
-          tempMapped.current.push({ ...image, orientation: "landscape" });
+          tempMapped.current.push({
+            ...image,
+            orientation: "landscape",
+            url: img.src,
+          });
         } else {
-          tempMapped.current.push({ ...image, orientation: "portrait" });
+          tempMapped.current.push({
+            ...image,
+            orientation: "portrait",
+            url: img.src,
+          });
         }
 
         if (tempMapped.current.length === images.length) {
@@ -69,6 +87,33 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
       };
     });
   }, [images, onLoaded]);
+
+  useEffect(() => {
+    setFullImages(new Array(mappedImages.length).fill(undefined));
+  }, [mappedImages]);
+
+  const updateFullImages = useCallback(() => {
+    if (!openPhoto) return;
+    for (let i = photoIndex - 1; i < photoIndex + 2; i++) {
+      if (!mappedImages[i] || fullImages[i]) {
+        continue;
+      }
+      const img = new Image();
+      img.referrerPolicy = "no-referrer";
+      img.src = getFullPreviewURL(mappedImages[i].url, 2500);
+      img.onload = () => {
+        setFullImages((prev) => {
+          const newFullImages = [...prev];
+          newFullImages[i] = img;
+          return newFullImages;
+        });
+      };
+    }
+  }, [fullImages, mappedImages, photoIndex, openPhoto]);
+
+  useEffect(() => {
+    updateFullImages();
+  }, [updateFullImages]);
 
   return (
     <div
@@ -108,11 +153,10 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
               ? `${openPhoto.artist} | ${openPhoto.venue} | ${openPhoto.date}`
               : undefined
           }
-          mainSrc={mappedImages[photoIndex].url}
-          nextSrc={mappedImages[(photoIndex + 1) % images.length].url}
-          prevSrc={
-            mappedImages[(photoIndex + images.length - 1) % images.length].url
-          }
+          onAfterOpen={updateFullImages}
+          mainSrc={fullImages[photoIndex]?.src ?? ""}
+          nextSrc={fullImages[(photoIndex + 1) % images.length]?.src}
+          prevSrc={fullImages[(photoIndex - 1) % images.length]?.src}
           onCloseRequest={() => setOpenPhoto(undefined)}
           onMovePrevRequest={() => {
             const newIndex = (photoIndex + images.length - 1) % images.length;

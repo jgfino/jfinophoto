@@ -20,7 +20,7 @@ const ConcertTile: React.FC<ConcertTileProps> = ({
   return (
     <Container to={`/galleries/${dest}`}>
       <ImageHolder>
-        <Cover src={image} referrerPolicy="no-referrer" />
+        <Cover loading="lazy" src={image} referrerPolicy="no-referrer" />
       </ImageHolder>
       <DateText>{date}</DateText>
       <Title>{artist}</Title>
