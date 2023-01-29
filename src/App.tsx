@@ -29,7 +29,7 @@ function App() {
       .removeEventListener("change", modeMe);
   }, []);
 
-  const theme = mode === "light" ? lightTheme : darkTheme;
+  const theme = mode === "light" ? lightTheme : lightTheme;
 
   document.body.style.backgroundColor = theme.colors.background;
 
