@@ -49,7 +49,7 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
       shouldRenderMobile ? (isTablet ? deskCols : 2) : deskCols
     );
 
-    if (small && newCols >= 2) {
+    if (small && newCols >= 2 && !shouldRenderMobile) {
       newCols += 1;
     }
 

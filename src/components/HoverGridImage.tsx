@@ -88,12 +88,11 @@ const Container = styled.div<{ orientation: "landscape" | "portrait" }>`
   }
   grid-column-end: ${(props) =>
     props.orientation === "landscape" ? "span 2" : "span 1"};
-  border-radius: 6px;
-  overflow: hidden;
 `;
 
 const Image = styled.img`
   object-fit: cover;
   width: 100%;
   height: 100%;
+  border-radius: 1em;
 `;
