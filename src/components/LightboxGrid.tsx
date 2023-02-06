@@ -177,7 +177,7 @@ export default MasonryLightbox;
 
 const Grid = styled.div`
   display: grid;
-  grid-gap: 2.5em;
+  grid-gap: 0.5em;
   grid-auto-flow: row dense;
   margin-top: 1.5em;
   margin-left: 5rem;
