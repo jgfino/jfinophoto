@@ -44,7 +44,7 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   const [numColumns, setNumColumns] = useState(7);
 
   useEffect(() => {
-    const deskCols = Math.max(2, width / 450);
+    const deskCols = Math.max(2, width / 400);
     let newCols = Math.ceil(
       shouldRenderMobile ? (isTablet ? deskCols : 2) : deskCols
     );
@@ -113,6 +113,23 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
     updateFullImages();
   }, [updateFullImages]);
 
+  const renderImage = (image: HoverImageProps, index: number) => {
+    return (
+      <HoverImage
+        order={index}
+        key={image.url}
+        {...image}
+        showOverlay={showCaption}
+        orientation={image.orientation}
+        url={image.url}
+        onClick={() => {
+          setPhotoIndex(index);
+          setOpenPhoto(image);
+        }}
+      />
+    );
+  };
+
   return (
     <div
       style={{
@@ -128,20 +145,7 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
           }%, 1fr))`,
         }}
       >
-        {mappedImages.map((image, index) => (
-          <HoverImage
-            order={index}
-            key={image.url}
-            {...image}
-            showOverlay={showCaption}
-            orientation={image.orientation}
-            url={image.url}
-            onClick={() => {
-              setPhotoIndex(index);
-              setOpenPhoto(image);
-            }}
-          />
-        ))}
+        {mappedImages.map(renderImage)}
       </Grid>
       {openPhoto && (
         // @ts-ignore
