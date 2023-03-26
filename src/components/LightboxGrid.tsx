@@ -44,12 +44,12 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   const [numColumns, setNumColumns] = useState(7);
 
   useEffect(() => {
-    const deskCols = Math.max(2, width / 400);
+    const deskCols = Math.max(4, width / 500);
     let newCols = Math.ceil(
       shouldRenderMobile ? (isTablet ? deskCols : 2) : deskCols
     );
 
-    if (small && newCols >= 2 && !shouldRenderMobile) {
+    if (small && newCols >= 4 && !shouldRenderMobile) {
       newCols += 1;
     }
 
@@ -141,7 +141,7 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
       <Grid
         style={{
           gridTemplateColumns: `repeat(auto-fit, minmax(${
-            100 / (numColumns + 1)
+            100 / (numColumns + 4)
           }%, 1fr))`,
         }}
       >
@@ -181,7 +181,7 @@ export default MasonryLightbox;
 
 const Grid = styled.div`
   display: grid;
-  grid-gap: 3em;
+  grid-gap: 2em;
   grid-auto-flow: row dense;
   margin-top: 1.5em;
   margin-left: 5rem;
