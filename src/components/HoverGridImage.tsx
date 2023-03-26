@@ -87,7 +87,9 @@ const Container = styled.div<{ orientation: "landscape" | "portrait" }>`
     cursor: pointer;
   }
   grid-column-end: ${(props) =>
-    props.orientation === "landscape" ? "span 2" : "span 1"};
+    props.orientation === "landscape" ? "span 2" : "span 2"};
+  grid-row-end: ${(props) =>
+    props.orientation === "landscape" ? "span 1" : "span 2"};
 `;
 
 const Image = styled.img`

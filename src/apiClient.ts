@@ -8,8 +8,13 @@ import {
 
 const baseUrl = "https://api.jfinophoto.com";
 
-export const getPortolio = async () => {
+export const getPortfolio = async () => {
   const images: ConcertImage[] = (await axios.get(`${baseUrl}/portfolio`)).data;
+  return images;
+};
+
+export const getPortfolioPortraits = async () => {
+  const images: ConcertImage[] = (await axios.get(`${baseUrl}/portraits`)).data;
   return images;
 };
 

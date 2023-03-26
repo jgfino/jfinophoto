@@ -8,6 +8,7 @@ import Contact from "./pages/Contact";
 import Concerts from "./pages/Concerts";
 import Concert from "./pages/Concert";
 import ErrorPage from "./components/ErrorPage";
+import { getPortfolio, getPortfolioPortraits } from "./apiClient";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark" | undefined>(
@@ -36,8 +37,24 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Routes>
-        <Route path="/" element={<Photos />} />
-        <Route path="/live" element={<Photos />} />
+        <Route
+          path="/"
+          element={<Photos key="portfolio" fetchImages={getPortfolio} />}
+        />
+        <Route
+          path="/live"
+          element={<Photos key="portfolio" fetchImages={getPortfolio} />}
+        />
+        <Route
+          path="/portraits"
+          element={
+            <Photos
+              key="portraits"
+              activePath="portraits"
+              fetchImages={getPortfolioPortraits}
+            />
+          }
+        />
         <Route path="/galleries" element={<Concerts />} />
         <Route path="/galleries/:id" element={<Concert />} />
         <Route path="/about" element={<About />} />

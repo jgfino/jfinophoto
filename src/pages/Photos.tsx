@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import HeaderBar from "../components/HeaderBar";
+import HeaderBar, { HeaderPath } from "../components/HeaderBar";
 import { IoShuffle as Shuffle } from "react-icons/io5";
 import LoadingPage from "../components/LoadingPage";
-import { getPortolio } from "../apiClient";
+import { getPortfolio } from "../apiClient";
 import ErrorPage from "../components/ErrorPage";
 import FooterBar from "../components/FooterBar";
 import { ConcertImage } from "../types";
@@ -21,7 +21,15 @@ export function shuffle<T>(arr: T[]) {
   return array;
 }
 
-const Photos = () => {
+interface PhotoPageProps {
+  fetchImages: () => Promise<ConcertImage[]>;
+  activePath?: HeaderPath;
+}
+
+const Photos: React.FC<PhotoPageProps> = ({
+  fetchImages,
+  activePath = "live",
+}) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [images, setImages] = useState<ConcertImage[]>([]);
@@ -33,7 +41,7 @@ const Photos = () => {
   };
 
   useEffect(() => {
-    getPortolio()
+    fetchImages()
       .then((data) => {
         setImages(data);
       })
@@ -48,7 +56,7 @@ const Photos = () => {
   return (
     <Container>
       <div>
-        <HeaderBar activePath="live" />
+        <HeaderBar activePath={activePath} />
         <RefreshContainer>
           <RefreshButton onClick={onShuffle}>
             <Shuffle size={"2em"} />
