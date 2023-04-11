@@ -44,7 +44,7 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   const [numColumns, setNumColumns] = useState(7);
 
   useEffect(() => {
-    const deskCols = Math.max(4, width / 500);
+    const deskCols = Math.max(4, width / 400);
     let newCols = Math.ceil(
       shouldRenderMobile ? (isTablet ? deskCols : 2) : deskCols
     );
@@ -61,7 +61,7 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
     images.forEach((image) => {
       const img = new Image();
       img.referrerPolicy = "no-referrer";
-      img.src = getFullPreviewURL(image.url, 768);
+      img.src = getFullPreviewURL(image.url, 1000);
       img.onload = () => {
         if (img.width > img.height) {
           tempMapped.current.push({
