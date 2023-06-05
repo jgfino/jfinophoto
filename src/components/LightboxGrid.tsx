@@ -12,6 +12,7 @@ interface MasonryLightboxProps {
   small?: boolean;
   loading?: boolean;
   onLoaded?: () => void;
+  landscape?: boolean;
 }
 
 const getFullPreviewURL = (url: string, size: number) => {
@@ -25,6 +26,7 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   small,
   loading,
   onLoaded,
+  landscape,
 }) => {
   const [photoIndex, setPhotoIndex] = useState(0);
   const [openPhoto, setOpenPhoto] = useState<ConcertImage>();
@@ -44,7 +46,7 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   const [numColumns, setNumColumns] = useState(7);
 
   useEffect(() => {
-    const deskCols = Math.max(4, width / 400);
+    const deskCols = Math.max(4, width / (landscape ? 250 : 400));
     let newCols = Math.ceil(
       shouldRenderMobile ? (isTablet ? deskCols : 2) : deskCols
     );
@@ -116,6 +118,7 @@ const MasonryLightbox: React.FC<MasonryLightboxProps> = ({
   const renderImage = (image: HoverImageProps, index: number) => {
     return (
       <HoverImage
+        landscape={landscape}
         order={index}
         key={image.url}
         {...image}
@@ -181,7 +184,7 @@ export default MasonryLightbox;
 
 const Grid = styled.div`
   display: grid;
-  grid-gap: 2em;
+  grid-gap: 1em;
   grid-auto-flow: row dense;
   margin-top: 1.5em;
   margin-left: 5rem;

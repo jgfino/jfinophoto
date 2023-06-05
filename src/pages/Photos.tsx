@@ -24,11 +24,13 @@ export function shuffle<T>(arr: T[]) {
 interface PhotoPageProps {
   fetchImages: () => Promise<ConcertImage[]>;
   activePath?: HeaderPath;
+  landscape?: boolean;
 }
 
 const Photos: React.FC<PhotoPageProps> = ({
   fetchImages,
   activePath = "live",
+  landscape,
 }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -64,6 +66,7 @@ const Photos: React.FC<PhotoPageProps> = ({
         </RefreshContainer>
       </div>
       <LightboxGrid
+        landscape={landscape}
         images={images}
         loading={loading}
         onLoaded={() => setLoading(false)}

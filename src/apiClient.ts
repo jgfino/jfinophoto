@@ -18,6 +18,11 @@ export const getPortfolioPortraits = async () => {
   return images;
 };
 
+export const getPortfolioFestivals = async () => {
+  const images: ConcertImage[] = (await axios.get(`${baseUrl}/festivals`)).data;
+  return images;
+};
+
 export const getConcerts = async () => {
   const concerts: ConcertPreview[] = (await axios.get(`${baseUrl}/concerts`))
     .data;

@@ -13,7 +13,8 @@ import useWindowDimensions from "../utils/useWindowDimensions";
 
 export type HeaderPath =
   | "live"
-  | "portraits"
+  | "festival"
+  | "portrait"
   | "about"
   | "contact"
   | "galleries";
@@ -24,7 +25,7 @@ interface HeaderProps {
 
 const HeaderBar: React.FC<HeaderProps> = ({ activePath }) => {
   const theme = useTheme();
-  const paths = ["live", "portraits", "contact"];
+  const paths = ["live", "festival", "portrait", "contact"];
   const { shouldRenderMobile } = useWindowDimensions();
 
   const styles = {

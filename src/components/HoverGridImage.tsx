@@ -8,6 +8,7 @@ export interface HoverImageProps extends ConcertImage {
   showOverlay?: boolean;
   onClick?: () => void;
   order?: number;
+  landscape?: boolean;
 }
 
 const HoverImage: React.FC<HoverImageProps> = ({
@@ -16,10 +17,12 @@ const HoverImage: React.FC<HoverImageProps> = ({
   onClick,
   showOverlay,
   order,
+  landscape,
   ...image
 }) => {
   return (
     <Container
+      landscape={landscape}
       orientation={orientation}
       onClick={onClick}
       style={{ order: order }}
@@ -79,7 +82,10 @@ const DateText = styled.span`
   font-size: 1.5rem;
 `;
 
-const Container = styled.div<{ orientation: "landscape" | "portrait" }>`
+const Container = styled.div<{
+  orientation: "landscape" | "portrait";
+  landscape?: boolean;
+}>`
   width: 100%;
   height: 100%;
   position: relative;
@@ -87,9 +93,17 @@ const Container = styled.div<{ orientation: "landscape" | "portrait" }>`
     cursor: pointer;
   }
   grid-column-end: ${(props) =>
-    props.orientation === "landscape" ? "span 2" : "span 2"};
+    props.orientation === "landscape"
+      ? props.landscape
+        ? "span 4"
+        : "span 2"
+      : "span 2"};
   grid-row-end: ${(props) =>
-    props.orientation === "landscape" ? "span 1" : "span 2"};
+    props.orientation === "landscape"
+      ? props.landscape
+        ? "span 2"
+        : "span 1"
+      : "span 2"};
 `;
 
 const Image = styled.img`

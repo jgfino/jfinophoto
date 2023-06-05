@@ -8,7 +8,11 @@ import Contact from "./pages/Contact";
 import Concerts from "./pages/Concerts";
 import Concert from "./pages/Concert";
 import ErrorPage from "./components/ErrorPage";
-import { getPortfolio, getPortfolioPortraits } from "./apiClient";
+import {
+  getPortfolio,
+  getPortfolioFestivals,
+  getPortfolioPortraits,
+} from "./apiClient";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark" | undefined>(
@@ -46,12 +50,23 @@ function App() {
           element={<Photos key="portfolio" fetchImages={getPortfolio} />}
         />
         <Route
-          path="/portraits"
+          path="/portrait"
           element={
             <Photos
-              key="portraits"
-              activePath="portraits"
+              key="portrait"
+              activePath="portrait"
               fetchImages={getPortfolioPortraits}
+            />
+          }
+        />
+        <Route
+          path="/festival"
+          element={
+            <Photos
+              landscape
+              key="festival"
+              activePath="festival"
+              fetchImages={getPortfolioFestivals}
             />
           }
         />
