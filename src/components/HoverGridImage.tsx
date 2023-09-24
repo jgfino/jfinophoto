@@ -67,7 +67,7 @@ const textCss = css`
 
 const Title = styled.span`
   ${textCss}
-  font-size: 2.8rem;
+  font-size: 2.5rem;
   margin-left: 10px;
   margin-right: 10px;
 `;
@@ -96,19 +96,18 @@ const Container = styled.div<{
     props.orientation === "landscape"
       ? props.landscape
         ? "span 4"
-        : "span 2"
+        : "span 4"
       : "span 2"};
   grid-row-end: ${(props) =>
     props.orientation === "landscape"
       ? props.landscape
-        ? "span 2"
+        ? "span 1"
         : "span 1"
-      : "span 2"};
+      : "span 1"};
 `;
 
 const Image = styled.img`
   object-fit: cover;
   width: 100%;
   height: 100%;
-  // border-radius: 1em;
 `;

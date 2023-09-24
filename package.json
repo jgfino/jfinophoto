@@ -5,6 +5,7 @@
   "homepage": "/",
   "dependencies": {
     "@fontsource/magra": "^4.5.11",
+    "@fontsource/quicksand": "^5.0.8",
     "@fontsource/roboto-condensed": "^4.5.9",
     "@fontsource/teko": "^4.5.9",
     "@testing-library/jest-dom": "^5.16.4",

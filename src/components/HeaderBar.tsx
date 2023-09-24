@@ -11,21 +11,15 @@ import { slide as Menu } from "react-burger-menu";
 import { IconType } from "react-icons";
 import useWindowDimensions from "../utils/useWindowDimensions";
 
-export type HeaderPath =
-  | "live"
-  | "festival"
-  | "portrait"
-  | "about"
-  | "contact"
-  | "galleries";
+export type HeaderPath = "live" | "festival" | "portrait" | "about" | "contact";
 
 interface HeaderProps {
-  activePath: HeaderPath;
+  activePath?: HeaderPath;
 }
 
 const HeaderBar: React.FC<HeaderProps> = ({ activePath }) => {
   const theme = useTheme();
-  const paths = ["live", "festival", "portrait", "contact"];
+  const paths = ["live", "portrait", "contact"];
   const { shouldRenderMobile } = useWindowDimensions();
 
   const styles = {
@@ -199,6 +193,6 @@ const Title = styled(NavLink)`
 
 const SideTitle = styled(NavLink)`
   ${TitleCss}
-  font-size: 3em;
+  font-size: 2em;
   margin-bottom: 1rem;
 `;

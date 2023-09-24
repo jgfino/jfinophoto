@@ -1,20 +1,24 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { getConcerts } from "../apiClient";
+import { getGalleries } from "../apiClient";
 import ConcertTile from "../components/ConcertTile";
 import ErrorPage from "../components/ErrorPage";
 import FooterBar from "../components/FooterBar";
 import HeaderBar from "../components/HeaderBar";
 import LoadingPage from "../components/LoadingPage";
-import { ConcertPreview } from "../types";
+import { Concert } from "../types";
 
-const Concerts = () => {
-  const [concerts, setConcerts] = useState<ConcertPreview[]>([]);
+interface GalleriesPageProps {
+  type: "concerts" | "festivals";
+}
+
+const Concerts: React.FC<GalleriesPageProps> = ({ type }) => {
+  const [concerts, setConcerts] = useState<Concert[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    getConcerts()
+    getGalleries(type)
       .then(setConcerts)
       .catch((e) => {
         console.log(e);
@@ -28,16 +32,16 @@ const Concerts = () => {
 
   return (
     <Container>
-      <HeaderBar activePath="galleries" />
+      <HeaderBar />
       <GridContainer>
         {concerts.map((concert) => (
           <ConcertTile
             key={concert.id}
-            image={concert.coverImage}
+            image={""}
             artist={concert.artist}
             location={concert.venue}
             date={concert.date}
-            dest={concert.id}
+            dest={`/galleries/${type}/${concert.id}/${concert.artistId!}`}
           />
         ))}
       </GridContainer>

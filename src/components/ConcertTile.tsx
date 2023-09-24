@@ -18,10 +18,7 @@ const ConcertTile: React.FC<ConcertTileProps> = ({
   dest,
 }) => {
   return (
-    <Container to={`/galleries/${dest}`}>
-      <ImageHolder>
-        <Cover loading="lazy" src={image} referrerPolicy="no-referrer" />
-      </ImageHolder>
+    <Container to={dest}>
       <DateText>{date}</DateText>
       <Title>{artist}</Title>
       <SubTitle>{location}</SubTitle>
@@ -33,23 +30,18 @@ export default ConcertTile;
 
 const Container = styled(Link)`
   cursor: pointer;
+  padding: 1em;
   text-decoration: none;
   text-align: center;
-`;
-
-const ImageHolder = styled.div`
-  aspect-ratio: 1;
-  border-radius: 18em;
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 1em;
-`;
-
-const Cover = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 20%;
+  padding-top: 1.5em;
+  padding-bottom: 1.5em;
+  background-color: ${({ theme }) => theme.colors.backgroundSecondary};
+  aspect-ratio: 2;
+  border-radius: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const DateText = styled.p`
@@ -60,11 +52,12 @@ const DateText = styled.p`
 `;
 
 const Title = styled.p`
-  font-size: 2.2em;
+  font-size: 2em;
   font-family: ${({ theme }) => theme.fontFamily.main};
   color: ${({ theme }) => theme.colors.text};
   margin: 0;
   font-weight: 500;
+  lines: 1;
 `;
 
 const SubTitle = styled.p`

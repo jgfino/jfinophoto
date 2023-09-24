@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import HeaderBar, { HeaderPath } from "../components/HeaderBar";
 import { IoShuffle as Shuffle } from "react-icons/io5";
-import LoadingPage from "../components/LoadingPage";
-import { getPortfolio } from "../apiClient";
 import ErrorPage from "../components/ErrorPage";
 import FooterBar from "../components/FooterBar";
 import { ConcertImage } from "../types";

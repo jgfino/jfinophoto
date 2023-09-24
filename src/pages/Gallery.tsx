@@ -1,25 +1,30 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getConcert } from "../apiClient";
+import { getGallery } from "../apiClient";
 import HeaderBar from "../components/HeaderBar";
-import { ConcertDetails } from "../types";
+import { ConcertWithPhotos } from "../types";
 import ErrorPage from "../components/ErrorPage";
-import LoadingPage from "../components/LoadingPage";
 import FooterBar from "../components/FooterBar";
 import LightboxGrid from "../components/LightboxGrid";
 import { shuffle } from "./Photos";
 
-const Concert = () => {
-  const [concert, setConcert] = useState<ConcertDetails>();
+interface GalleryPageProps {
+  type: "concerts" | "festivals";
+}
+
+const Gallery: React.FC<GalleryPageProps> = ({ type }) => {
+  const [concert, setConcert] = useState<ConcertWithPhotos>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const { id } = useParams();
+  const { artistId, festivalId, concertId } = useParams();
+
+  const eventId = festivalId || concertId;
 
   useEffect(() => {
-    if (!id) return;
-    getConcert(id)
+    if (!artistId || !eventId) return;
+    getGallery(eventId, artistId, type)
       .then((data) => {
         data.photos = shuffle(data.photos);
         setConcert(data);
@@ -28,13 +33,13 @@ const Concert = () => {
         console.log(e);
         setError(true);
       });
-  }, [id]);
+  }, []);
 
   if (error) return <ErrorPage />;
 
   return (
     <Container>
-      <HeaderBar activePath="galleries" />
+      <HeaderBar />
       {concert && (
         <TitleContainer>
           <Title>{concert.artist}</Title>
@@ -43,6 +48,7 @@ const Concert = () => {
       )}
       <InnerContainer>
         <LightboxGrid
+          landscape
           showCaption={false}
           small
           images={concert?.photos || []}
@@ -55,7 +61,7 @@ const Concert = () => {
   );
 };
 
-export default Concert;
+export default Gallery;
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.background};

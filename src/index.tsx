@@ -3,6 +3,7 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import "@fontsource/teko";
 import "@fontsource/roboto-condensed";
+import "@fontsource/quicksand";
 import App from "./App";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";

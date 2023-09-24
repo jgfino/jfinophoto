@@ -1235,6 +1235,11 @@
   resolved "https://registry.yarnpkg.com/@fontsource/magra/-/magra-4.5.11.tgz#a8f569fe9ea1cb2d63b650aa8aa760c8df72ae35"
   integrity sha512-oCbkajL/XhQZ+d2piZa+Wi96PRcbVHd7GjmLQR4aUgP9J/FbpckgMd0B1bGOhlgW45L+sRHwhsW5fHJlNH/GWg==
 
+"@fontsource/quicksand@^5.0.8":
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/@fontsource/quicksand/-/quicksand-5.0.8.tgz#2c5ecbbc9ce0fed69cdaffa2b20ef2d8a7e9f1b3"
+  integrity sha512-yckyBMWMerElcJq23yBZ8MOYLN3cJQFbb+bVQOhRrt68qRMDpselnF+/IYR078eHHmYOzNAfQaopFEeHaXrGyw==
+
 "@fontsource/roboto-condensed@^4.5.9":
   version "4.5.9"
   resolved "https://registry.yarnpkg.com/@fontsource/roboto-condensed/-/roboto-condensed-4.5.9.tgz#70582d0d70acf02323bdeb603e108b836030b42e"

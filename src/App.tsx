@@ -5,14 +5,10 @@ import { darkTheme, lightTheme } from "./themes";
 import { Routes, Route } from "react-router-dom";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import Concerts from "./pages/Concerts";
-import Concert from "./pages/Concert";
+import Galleries from "./pages/Galleries";
+import Gallery from "./pages/Gallery";
 import ErrorPage from "./components/ErrorPage";
-import {
-  getPortfolio,
-  getPortfolioFestivals,
-  getPortfolioPortraits,
-} from "./apiClient";
+import { getFestivals, getLivePortfolio, getPortraits } from "./apiClient";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark" | undefined>(
@@ -34,7 +30,7 @@ function App() {
       .removeEventListener("change", modeMe);
   }, []);
 
-  const theme = mode === "light" ? lightTheme : lightTheme;
+  const theme = mode === "light" ? lightTheme : darkTheme;
 
   document.body.style.backgroundColor = theme.colors.background;
 
@@ -43,11 +39,11 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<Photos key="portfolio" fetchImages={getPortfolio} />}
+          element={<Photos key="portfolio" fetchImages={getLivePortfolio} />}
         />
         <Route
           path="/live"
-          element={<Photos key="portfolio" fetchImages={getPortfolio} />}
+          element={<Photos key="portfolio" fetchImages={getLivePortfolio} />}
         />
         <Route
           path="/portrait"
@@ -55,23 +51,37 @@ function App() {
             <Photos
               key="portrait"
               activePath="portrait"
-              fetchImages={getPortfolioPortraits}
+              fetchImages={getPortraits}
             />
           }
         />
-        <Route
+        {/* <Route
           path="/festival"
           element={
             <Photos
               landscape
               key="festival"
               activePath="festival"
-              fetchImages={getPortfolioFestivals}
+              fetchImages={getFestivals}
             />
           }
+        /> */}
+        <Route
+          path="/galleries/concerts"
+          element={<Galleries type="concerts" />}
         />
-        <Route path="/galleries" element={<Concerts />} />
-        <Route path="/galleries/:id" element={<Concert />} />
+        <Route
+          path="/galleries/festivals"
+          element={<Galleries type="festivals" />}
+        />
+        <Route
+          path="/galleries/concerts/:concertId/:artistId"
+          element={<Gallery type="concerts" />}
+        />
+        <Route
+          path="/galleries/festivals/:festivalId/:artistId"
+          element={<Gallery type="festivals" />}
+        />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<ErrorPage />} />
